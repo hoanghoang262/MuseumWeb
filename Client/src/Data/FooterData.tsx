@@ -38,7 +38,7 @@ const FooterData = [
             {
                 icon:undefined,
                 image: undefined,
-                text:'⚫ Tải tò rơi'
+                text:'⚫ Tải tờ rơi'
             },
             {
                 icon:undefined,
