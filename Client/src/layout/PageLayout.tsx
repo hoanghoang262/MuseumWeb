@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "../Components/Navbar";
 
 function PageLayout() {
   return (
     <div>
-      <h1>PageLayout</h1>
+      <Navbar />
       <Outlet />
     </div>
   );
