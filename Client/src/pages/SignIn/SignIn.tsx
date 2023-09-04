@@ -23,7 +23,7 @@ function SignIn() {
           </div>
         ))}
       </Carousel>
-      <div className="bg-white bg-opacity-30 text-center w-full h-screen flex items-center">
+      <div className="bg-white bg-opacity-30 w-full h-screen flex items-center">
         <div className="w-1/3 m-auto">
           <ShowModal handleClose={handleClose} />
         </div>
