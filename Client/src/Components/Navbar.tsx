@@ -20,7 +20,11 @@ const Navbar = ()=>{
         <div className='w-4/5 flex flex-col'>
             <div className='h-2/4 flex justify-end px-28 items-center'>
                 {Language.map(language => <img src={language} alt='language image' style={{height:"30px"}}/>)}
-                <SearchIcon style={{fontSize: "200%"}} className='ml-20'/>
+                <SearchIcon style={{fontSize: "200%"}} className='ml-20 mr-5'/>
+                <div className='flex flex-col'>
+                    <Link to="/signIn" className='hover:text-green-600'>Đăng Nhập</Link>
+                    <Link to="/signIn" className='hover:text-green-600'>Đăng Ký</Link>
+                </div>
             </div>
             <div className='flex px-10 items-end justify-between w-4/5'>
                 {HomeMenu.map(menu => <>
