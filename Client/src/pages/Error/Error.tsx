@@ -1,5 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 function Error() {
-  return <div>Error</div>;
+  const { t } = useTranslation();
+  return <div>{t("error")}</div>;
 }
 
 export default Error;
