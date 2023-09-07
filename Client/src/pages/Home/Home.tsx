@@ -1,14 +1,14 @@
 import presenImg from "../../Images/presentImage.jpg";
-import HomeImages from "../../Data/HomeImages";
+import HomeImages from "../../data/HomeImages";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import MuseumIcon from "@mui/icons-material/Museum";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { presenData } from "../../Data/presenData";
-import PostData from "../../Data/PostData";
-import ProductData from "../../Data/ProductData";
-import Footer from "../../Components/Footer";
+import { presenData } from "../../data/presenData";
+import PostData from "../../data/PostData";
+import ProductData from "../../data/ProductData";
+import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
 
 function Home() {

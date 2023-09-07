@@ -1,7 +1,7 @@
 import MuseumIcon from '@mui/icons-material/Museum';
 import SearchIcon from '@mui/icons-material/Search';
-import { HomeMenu } from '../Data/Menu';
-import { Language } from '../Data/Language';
+import { HomeMenu } from '../data/Menu';
+import { Language } from '../data/Language';
 import { Link } from 'react-router-dom';
 
 const Navbar = ()=>{

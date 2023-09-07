@@ -1,4 +1,4 @@
-import FooterData from "../Data/FooterData";
+import FooterData from "../data/FooterData";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
