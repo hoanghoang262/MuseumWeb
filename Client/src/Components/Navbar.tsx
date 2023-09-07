@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ()=>{
     return <>
-    <div className='flex bg-white bg-opacity-60 py-5 absolute top-0 z-10 w-full' >
+    <nav className='flex bg-white bg-opacity-60 py-5 absolute top-0 z-10 w-full' >
         {/* icon holder */}
         <div className='w-1/5'>
             <div className='flex items-center justify-end'>
@@ -33,7 +33,7 @@ const Navbar = ()=>{
             </div>
         </div>
         {/* menu */}
-    </div>
+    </nav>
     </>
 }
 
