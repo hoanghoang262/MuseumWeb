@@ -1,13 +1,13 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import HomeImages from "../../Data/HomeImages";
-import ShowModal from "../../Components/Modals";
+import ShowModal from "../../components/Modals";
 import { useNavigate } from "react-router-dom";
 
 function SignIn() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleClose = () => {
-    navigate("/")
+    navigate("/");
   };
   return (
     <>

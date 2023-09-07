@@ -1,36 +1,44 @@
-import presenImg from "../../Images/presentImage.jpg";
-import HomeImages from "../../Data/HomeImages";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
+import { MouseEvent } from "react";
+import { Link } from "react-router-dom";
+
 import MuseumIcon from "@mui/icons-material/Museum";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
+
+import HomeImages from "../../Data/HomeImages";
+import presenImg from "../../Images/presentImage.jpg";
+
 import { presenData } from "../../Data/presenData";
 import PostData from "../../Data/PostData";
 import ProductData from "../../Data/ProductData";
-import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
 
 function Home() {
-  const unhiddenContent = (event: any) => {
-    var div = event.target;
-    var content = div.querySelector(".content");
+  const unhiddenContent = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    const div = event.target as HTMLElement;
+    const content = div.querySelector(".content");
     if (content?.classList.contains("hidden")) {
       content.classList.remove("hidden");
     }
   };
 
-  const hiddenContent = (event: any) => {
-    var div = event.target;
-    var content = div.querySelector(".content");
-    if (!content?.classList.contains("hidden")) {
+  const hiddenContent = (
+    event: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
+    const div = event.target as HTMLElement;
+    const content = div.querySelector(".content");
+    if (content && !content.classList.contains("hidden")) {
       content.classList.add("hidden");
     }
   };
 
   return (
     <div>
-      {/* images slider */}
+      {/*ANCHOR - image slider */}
       <Carousel
         autoPlay={true}
         dynamicHeight={true}
@@ -43,14 +51,12 @@ function Home() {
           </div>
         ))}
       </Carousel>
-      {/* images slider */}
-
+      {/*ANCHOR - Big Icon */}
       <div className="text-center mt-32 mx-20">
         <MuseumIcon style={{ fontSize: "900%" }} className="text-green-900" />
-        <div className="text-6xl font-serif">Tham Quan</div>
+        <div className="text-3xl font-serif">Tham Quan</div>
       </div>
-
-      {/* giớt thiệu */}
+      {/*ANCHOR - Introduce info */}
       <div className="flex mx-20">
         <img className="w-7/12" src={presenImg} />
         <div className="w-5/12 flex flex-col">
@@ -69,18 +75,15 @@ function Home() {
           ))}
         </div>
       </div>
-      {/* giớt thiệu */}
-
-      {/* tin tức và sự kiện */}
-
+      {/*ANCHOR - New and post */}
       <div className="mx-20 mt-32">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
+          <div className="flex items-end">
             <MuseumIcon
-              style={{ fontSize: "900%" }}
-              className="text-green-900"
+              style={{ fontSize: "300%" }}
+              className="text-green-900 mr-[7px]"
             />
-            <div className="font-serif text-6xl">Tin Tức và Sự Kiện</div>
+            <div className="font-serif text-xl">Tin Tức và Sự Kiện</div>
           </div>
 
           <Link
@@ -112,14 +115,10 @@ function Home() {
           ))}
         </div>
       </div>
-
-      {/* tin tức và sự kiện */}
-
-      {/* giới thiệu sản phẩm */}
-
+      {/* ANCHOR - Product review */}
       <div className="text-center mt-32 mx-20">
         <MuseumIcon style={{ fontSize: "900%" }} className="text-green-900" />
-        <div className="text-6xl font-serif">Sản Phẩm</div>
+        <div className="text-3xl font-serif">Sản Phẩm</div>
       </div>
       <div className="mx-20 grid grid-cols-3 mt-10">
         {ProductData.map((data) => (
@@ -130,24 +129,23 @@ function Home() {
               </div>
               <div className="font-light">{data.description}</div>
               <img src={data.Image} className="mt-5" />
-              <Link to="/" className="justify-self-end mt-10 pr-10 hover:text-green-600 flex items-center text-xl font-medium">Đọc thêm <KeyboardArrowRightIcon /></Link>
+              <Link
+                to="/"
+                className="justify-self-end mt-10 pr-10 hover:text-green-600 flex items-center text-xl font-medium"
+              >
+                Đọc thêm <KeyboardArrowRightIcon />
+              </Link>
             </div>
           </>
         ))}
       </div>
-
-      {/* giới thiệu sản phẩm */}
-
+      {/*ANCHOR - Continue search */}
       <div className="text-center mt-32 mx-20 text-green-900 hover:text-green-700 hover:translate-x-10 transition-all">
         <Link to="/">
           <MuseumIcon style={{ fontSize: "900%" }} />
-          <div className="text-6xl font-sans">Tiếp tục khám phá</div>
+          <div className="text-3xl font-sans">Tiếp tục khám phá</div>
         </Link>
       </div>
-
-      {/* Footer */}
-      <Footer />
-      {/* Footer */}
     </div>
   );
 }
