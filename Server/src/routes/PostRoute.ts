@@ -1,15 +1,16 @@
 import PromiseRouter from 'express-promise-router'
-import { getOne, getAll } from '../controller/ProductController';
+import { getOne, getAll, delMany, delOne, update, add } from '../controller/PostController';
 
 const router = PromiseRouter();
-//product router
+//post router
 router.route("/:id")
     .get(getOne)
-    .delete()
-    .put()
+    .delete(delOne)
+    .put(update)
 
 router.route("/")
     .get(getAll)
-    .post()
+    .post(add)
+    .delete(delMany)
 
 export default router

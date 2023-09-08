@@ -1,4 +1,4 @@
-
+import { Request, Response } from "express";
 import { v4 as uuidv4 } from 'uuid';
 import hashPassword from '../helper/hashFuntion'
 import { PrismaClient } from '@prisma/client'
@@ -10,7 +10,7 @@ const newGuid = uuidv4;
 
 //login
 
-const login = async(req, res, next) => {
+const login = async(req:Request, res:Response) => {
     const logUser = req.body
     const User = await prisma.account.findFirst({where:{
         email:logUser.email,
@@ -27,7 +27,7 @@ const login = async(req, res, next) => {
 }
 
 //Register
-const register = async(req, res, next) => {
+const register = async(req:Request, res:Response) => {
     const data = req.body
 
     const emailExist = await prisma.account.findFirst({where:{

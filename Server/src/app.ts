@@ -4,6 +4,8 @@ import cors from "cors";
 import * as env from 'dotenv'
 import { PrismaClient } from '@prisma/client'
 
+import mainRoute from './routes/MainRoute'
+
 const prisma = new PrismaClient()
 //connect to database
 prisma.$connect()
@@ -42,6 +44,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World with TypeScript!");
 });
+
+//main routes
+app.use("/", mainRoute)
 
 
 app.listen(PORT, () => {

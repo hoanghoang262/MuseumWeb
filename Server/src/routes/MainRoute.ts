@@ -14,5 +14,7 @@ router.use("/posts", PostRoute)
 //product route
 router.use("/products", ProductRoute)
 
+export default router
+
 
 
