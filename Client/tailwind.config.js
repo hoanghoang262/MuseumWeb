@@ -7,7 +7,6 @@ export default {
   theme: {
     extend: {
       fontSize:{
-        "6xl": "900%",
       }
     },
   },
