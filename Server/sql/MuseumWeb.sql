@@ -25,8 +25,7 @@ CREATE TABLE [dbo].[Account](
 
 CREATE TABLE [dbo].[Product](
 	[product_id] [varchar](225) PRIMARY KEY,
-	[product_name] [nvarchar](225) NOT NULL,
-	[description] [ntext] NULL,
+	[product_json] [ntext] NOT NULL,
 	[image] [text] NULL,
 	[video] [text] NULL,
 	[created_date] [date] default getdate(),
@@ -35,9 +34,8 @@ CREATE TABLE [dbo].[Product](
 
 CREATE TABLE [dbo].[Post](
 	[post_id] [varchar](225) PRIMARY KEY,
-	[title] [nvarchar](100) NOT NULL,
-	[content] [ntext] NOT NULL,
-	[language] [nvarchar](100) default 'Vietnamese',
+	[image] [text] NULL,
+	[post_json] [ntext] NOT NULL,
 	[category_id] [int] FOREIGN KEY REFERENCES Category(category_id),
 	[created_date] [date] default getdate(),
 	[created_by] [varchar](225) FOREIGN KEY REFERENCES Account(account_id),
