@@ -9,7 +9,7 @@ const newGuid = uuidv4;
 
 //get all posts
 const getAll = async (req: Request, res: Response) => {
-  const posts = await prisma.post;
+  const posts = await prisma.post.findMany();
   res.status(200).json(posts);
 };
 

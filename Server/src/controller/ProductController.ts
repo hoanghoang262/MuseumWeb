@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 //get all Products
 const getAll = async (req: Request, res: Response) => {
-  const product = await prisma.product;
+  const product = await prisma.product.findMany();
   res.status(200).json(product);
 };
 
