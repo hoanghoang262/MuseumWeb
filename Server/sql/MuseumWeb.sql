@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[Account](
 
 CREATE TABLE [dbo].[Product](
 	[product_id] [varchar](225) PRIMARY KEY,
-	[product_json] [ntext] NOT NULL,
+	[product_json] [nvarchar](max) NOT NULL CHECK(ISJSON(product_json) = 1),
 	[image] [text] NULL,
 	[video] [text] NULL,
 	[created_date] [date] default getdate(),
@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[Product](
 CREATE TABLE [dbo].[Post](
 	[post_id] [varchar](225) PRIMARY KEY,
 	[image] [text] NULL,
-	[post_json] [ntext] NOT NULL,
+	[post_json] [nvarchar](max) NOT NULL CHECK(ISJSON(post_json)=1),
 	[category_id] [int] FOREIGN KEY REFERENCES Category(category_id),
 	[created_date] [date] default getdate(),
 	[created_by] [varchar](225) FOREIGN KEY REFERENCES Account(account_id),
@@ -54,7 +54,6 @@ CREATE TABLE [dbo].[Favor](
 	[account_id] [varchar](225) FOREIGN KEY REFERENCES Account(account_id),
 	[product_id] [varchar](225) FOREIGN KEY REFERENCES Product(product_id)
 )
-
 
 CREATE TABLE [dbo].[Product_Tag](
 	[product_id] [varchar](225) FOREIGN KEY REFERENCES Product(product_id),

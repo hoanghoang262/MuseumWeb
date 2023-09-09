@@ -6,8 +6,10 @@ const prisma = new PrismaClient();
 
 //get all Products
 const getAll = async (req: Request, res: Response) => {
-  const product = await prisma.product.findMany();
-  res.status(200).json(product);
+  const products = await prisma.product.findMany();
+  //parse string to json
+  products.map(product =>{product.product_json = JSON.parse(product.product_json)}) 
+  res.status(200).json(products);
 };
 
 //get one product by id
@@ -15,6 +17,10 @@ const getOne = async (req: Request, res: Response) => {
   const product = await prisma.product.findUnique({
     where: { product_id: req.params.id },
   });
+  //parse string to json
+  if(product){
+    product.product_json = JSON.parse(product.product_json)
+  }
   res.status(200).json(product);
 };
 

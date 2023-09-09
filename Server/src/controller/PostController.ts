@@ -10,6 +10,8 @@ const newGuid = uuidv4;
 //get all posts
 const getAll = async (req: Request, res: Response) => {
   const posts = await prisma.post.findMany();
+  //parse string to JSON
+  posts.map(post => JSON.parse(post.post_json))
   res.status(200).json(posts);
 };
 
@@ -18,6 +20,10 @@ const getOne = async (req: Request, res: Response) => {
   const post = await prisma.post.findUnique({
     where: { post_id: req.params.id },
   });
+  //parse string to JSON
+  if(post){
+    post.post_json = JSON.parse(post.post_json)
+  }
   res.status(200).json(post);
 };
 
