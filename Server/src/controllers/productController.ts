@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import PrismaService from "../services/prismaService";
 
-const prisma = new PrismaClient();
+const prisma = PrismaService.getInstance();
 
 //get all Products
 const getAll = async (req: Request, res: Response) => {
   const products = await prisma.product.findMany();
   //parse string to json
-  products.map(product =>{product.product_json = JSON.parse(product.product_json)}) 
+  products.map((product) => {
+    product.product_json = JSON.parse(product.product_json);
+  });
   res.status(200).json(products);
 };
 
@@ -18,8 +20,8 @@ const getOne = async (req: Request, res: Response) => {
     where: { product_id: req.params.id },
   });
   //parse string to json
-  if(product){
-    product.product_json = JSON.parse(product.product_json)
+  if (product) {
+    product.product_json = JSON.parse(product.product_json);
   }
   res.status(200).json(product);
 };
@@ -54,19 +56,21 @@ const update = async (req: Request, res: Response) => {
     data: data,
   });
 
-  res.status(200).json(product)
+  res.status(200).json(product);
 };
 
-const add = async (req:Request, res:Response) => {
-    const data = req.body;
+const add = async (req: Request, res: Response) => {
+  const data = req.body;
 
-    const product = await prisma.product.create({data:{
-        product_id: uuidv4(),
-        created_date: new Date(),
-        ...data
-    }})
+  const product = await prisma.product.create({
+    data: {
+      product_id: uuidv4(),
+      created_date: new Date(),
+      ...data,
+    },
+  });
 
-    res.status(200).json(product)
-}
+  res.status(200).json(product);
+};
 
 export { getAll, getOne, update, add, delMany, delOne };

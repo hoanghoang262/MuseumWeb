@@ -1,28 +1,27 @@
 import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import * as env from 'dotenv'
-import { PrismaClient } from '@prisma/client'
+import * as env from "dotenv";
+import { PrismaClient } from "@prisma/client";
 
-import mainRoute from './routes/MainRoute'
+import mainRoute from "./routes/mainRoute";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 //connect to database
-prisma.$connect()
+prisma.$connect();
 
 //test database connection
-const dbtest = async ()=> {
+const dbtest = async () => {
+  console.log("test database connection");
 
-  console.log("test database connection")
-
-  const role = await prisma.role.findMany()
-  console.log('role', role)
-}
+  const role = await prisma.role.findMany();
+  console.log("role", role);
+};
 
 dbtest();
 
 //environment variables configuration
-env.config()
+env.config();
 
 const app = express();
 const PORT = 3000;
@@ -38,7 +37,7 @@ app.use(cors());
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  res.status(500).send("Something went wrong!");
 });
 
 app.get("/", (req: Request, res: Response) => {
@@ -46,11 +45,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //main routes
-app.use("/", mainRoute)
-
+app.use("/", mainRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-

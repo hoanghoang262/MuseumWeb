@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { PrismaClient } from "@prisma/client";
+import PrismaService from "../services/prismaService";
 
-const prisma = new PrismaClient();
+const prisma = PrismaService.getInstance();
 
 // Generate a new UUID (Version 4)
 const newGuid = uuidv4;
@@ -11,7 +11,7 @@ const newGuid = uuidv4;
 const getAll = async (req: Request, res: Response) => {
   const posts = await prisma.post.findMany();
   //parse string to JSON
-  posts.map(post => JSON.parse(post.post_json))
+  posts.map((post) => JSON.parse(post.post_json));
   res.status(200).json(posts);
 };
 
@@ -21,8 +21,8 @@ const getOne = async (req: Request, res: Response) => {
     where: { post_id: req.params.id },
   });
   //parse string to JSON
-  if(post){
-    post.post_json = JSON.parse(post.post_json)
+  if (post) {
+    post.post_json = JSON.parse(post.post_json);
   }
   res.status(200).json(post);
 };
