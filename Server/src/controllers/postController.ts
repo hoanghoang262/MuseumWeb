@@ -1,11 +1,7 @@
 import { Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
 import PrismaService from "../services/prismaService";
 
 const prisma = PrismaService.getInstance();
-
-// Generate a new UUID (Version 4)
-const newGuid = uuidv4;
 
 //get all posts
 const getAll = async (req: Request, res: Response) => {
@@ -60,7 +56,6 @@ const add = async (req: Request, res: Response) => {
   const data = req.body;
   const post = await prisma.post.create({
     data: {
-      post_id: newGuid(),
       created_date: new Date(),
       ...data,
     },

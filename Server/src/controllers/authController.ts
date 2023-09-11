@@ -1,31 +1,26 @@
 import { Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
-import hashPassword from "../helper/hashFuntion";
+
+import { SignInDto } from "../dto/auth.dto";
 import PrismaService from "../services/prismaService";
+import hashPassword from "../helper/hashFuntion";
+import { signIn } from "../services/authService";
+import { Account } from "@prisma/client";
+import { Message, isMessage } from "../type/message.inteface";
 
 const prisma = PrismaService.getInstance();
 
-// Generate a new UUID (Version 4)
-const newGuid = uuidv4;
-
 //login
-
 const login = async (req: Request, res: Response) => {
-  const logUser = req.body;
-  const User = await prisma.account.findFirst({
-    where: {
-      email: logUser.email,
-      hash_password: hashPassword(req.body.password),
-    },
-  });
+  const logUser: SignInDto = req.body;
+  const user: Account | Message = await signIn(logUser);
 
-  if (User == null) {
-    res.status(404).json({ message: "User not found" });
-  } else if (User.isBan) {
-    res.status(403).json({ message: "User is banned" });
+  if (isMessage(user)) {
+    res.status(404).json(user);
+  } else if (user.isBan) {
+    res.status(403).json(user);
   }
 
-  res.status(200).json(User);
+  res.status(200).json(user);
 };
 
 //Register
@@ -44,7 +39,6 @@ const register = async (req: Request, res: Response) => {
 
   const User = await prisma.account.create({
     data: {
-      account_id: newGuid(),
       email: data.email,
       account_name: data.accountName,
       hash_password: hashPassword(data.password),

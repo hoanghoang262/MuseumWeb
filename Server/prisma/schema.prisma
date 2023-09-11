@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  account_id    String    @id(map: "PK__Account__46A222CDDBFAB8A4") @db.VarChar(225)
+  account_id    String    @id(map: "PK__Account__46A222CDDBFAB8A4") @default(uuid()) @db.VarChar(225)
   email         String    @db.VarChar(225)
   account_name  String    @db.NVarChar(225)
   hash_password String?   @db.Text
@@ -29,7 +29,7 @@ model Category {
 }
 
 model Comment {
-  comment_id   String    @id(map: "PK__Comment__E79576870DB0A8B2") @db.VarChar(225)
+  comment_id   String    @id(map: "PK__Comment__E79576870DB0A8B2") @default(uuid()) @db.VarChar(225)
   content      String    @db.NText
   account_id   String?   @db.VarChar(225)
   post_id      String?   @db.VarChar(225)
@@ -50,7 +50,7 @@ model Favor {
 }
 
 model Post {
-  post_id      String    @id(map: "PK__Post__3ED787661F804987") @db.VarChar(225)
+  post_id      String    @id(map: "PK__Post__3ED787661F804987") @default(uuid()) @db.VarChar(225)
   image        String?   @db.Text
   post_json    String    @db.NVarChar(Max)
   category_id  Int?
