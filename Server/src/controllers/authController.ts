@@ -3,16 +3,17 @@ import { Request, Response } from "express";
 import { SignInDto } from "../dto/auth.dto";
 import PrismaService from "../services/prismaService";
 import hashPassword from "../helper/hashFuntion";
-import { signIn } from "../services/authService";
+import AuthService from "../services/authService";
 import { Account } from "@prisma/client";
 import { Message, isMessage } from "../type/message.inteface";
+import { Register } from "../type/auth.interface";
 
 const prisma = PrismaService.getInstance();
 
 //login
-const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
   const logUser: SignInDto = req.body;
-  const user: Account | Message = await signIn(logUser);
+  const user: Account | Message = await AuthService.signIn(logUser);
 
   if (isMessage(user)) {
     res.status(404).json(user);
@@ -24,29 +25,21 @@ const login = async (req: Request, res: Response) => {
 };
 
 //Register
-const register = async (req: Request, res: Response) => {
-  const data = req.body;
+export const register = async (req: Request, res: Response) => {
+  const data: Register = req.body;
 
-  const emailExist = await prisma.account.findFirst({
-    where: {
-      email: data.email,
-    },
-  });
+  const result: Account | Message = await AuthService.register(data);
 
-  if (emailExist) {
-    res.status(400).json({ message: "Email already exists" });
+  if (isMessage(result)) {
+    res.status(404).json(result);
+  } else {
+    res.status(200).json(result);
   }
-
-  const User = await prisma.account.create({
-    data: {
-      email: data.email,
-      account_name: data.accountName,
-      hash_password: hashPassword(data.password),
-      created_date: new Date(),
-    },
-  });
-
-  res.status(200).json(User);
 };
 
-export { login, register };
+const AuthController = {
+  login,
+  register,
+};
+
+export default AuthController;

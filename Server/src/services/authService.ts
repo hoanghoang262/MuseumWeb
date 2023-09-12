@@ -1,12 +1,16 @@
+import { Prisma } from "@prisma/client";
 import PrismaService from "./prismaService";
 
 import hashPassword from "../helper/hashFuntion";
 import { SignInDto } from "../dto/auth.dto";
 import { Account } from "@prisma/client";
 import { Message } from "../type/message.inteface";
+import { Register } from "../type/auth.interface";
+import { isError } from "../helper/isError";
 
 const prisma = PrismaService.getInstance();
 
+//ANCHOR - signIn service
 export const signIn = async (
   logUser: SignInDto
 ): Promise<Account | Message> => {
@@ -25,3 +29,47 @@ export const signIn = async (
     return user;
   }
 };
+
+//ANCHOR - Register service
+export const register = async (data: Register): Promise<Account | Message> => {
+  const emailExist = await prisma.account.findFirst({
+    where: {
+      email: data.email,
+    },
+  });
+
+  if (emailExist) {
+    return { type: "error", content: "Email already exists" };
+  }
+
+  try {
+    const account: Account = await prisma.account.create({
+      data: {
+        email: data.email,
+        account_name: data.account_name,
+        hash_password: hashPassword(data.password),
+        created_date: new Date(),
+      },
+    });
+    return account;
+  } catch (error: unknown) {
+    if (isError(error)) {
+      return {
+        type: "error",
+        content: `Failed to register user\n${error.message}`,
+      };
+    } else {
+      return {
+        type: "error",
+        content: `Failed to register user\n${error}`,
+      };
+    }
+  }
+};
+
+const AuthService = {
+  signIn,
+  register,
+};
+
+export default AuthService;
