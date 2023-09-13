@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import { SignInDto } from "../dto/auth.dto";
 import PrismaService from "../services/prismaService";
-import hashPassword from "../helper/hashFuntion";
 import AuthService from "../services/authService";
 import { Account } from "@prisma/client";
 import { Message, isMessage } from "../type/message.inteface";

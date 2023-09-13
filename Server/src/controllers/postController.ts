@@ -1,65 +1,45 @@
 import { Request, Response } from "express";
-import PrismaService from "../services/prismaService";
+import PostService from "../services/postService";
 
-const prisma = PrismaService.getInstance();
+import { Post } from "@prisma/client";
+
 
 //get all posts
 const getAll = async (req: Request, res: Response) => {
-  const posts = await prisma.post.findMany();
-  //parse string to JSON
-  posts.map((post) => JSON.parse(post.post_json));
+  const posts:Post[] = await PostService.getAll()
   res.status(200).json(posts);
 };
 
 //get one post by id
 const getOne = async (req: Request, res: Response) => {
-  const post = await prisma.post.findUnique({
-    where: { post_id: req.params.id },
-  });
-  //parse string to JSON
-  if (post) {
-    post.post_json = JSON.parse(post.post_json);
-  }
+  const post = await PostService.getOne(req.params.id);
   res.status(200).json(post);
 };
 
 //del one post by id
 const delOne = async (req: Request, res: Response) => {
-  const post = await prisma.post.delete({ where: { post_id: req.params.id } });
+  const post = await PostService.delOne(req.params.id);
   res.status(200).json(post);
 };
 
 //del many post by id
 const delMany = async (req: Request, res: Response) => {
   const postIds: { post_id: string }[] = req.body;
-  const posts = await prisma.post.deleteMany({
-    where: {
-      AND: postIds,
-    },
-  });
+  const posts = await PostService.delMany(postIds);
   res.status(200).json(posts);
 };
 
 //update one post by id
 const update = async (req: Request, res: Response) => {
   const data = req.body;
-  const post = await prisma.post.update({
-    where: { post_id: req.params.id },
-    data: data,
-  });
-
+  const post = await PostService.update(req.params.id, data)
   res.status(200).json(post);
 };
 
 //add one post
 const add = async (req: Request, res: Response) => {
   const data = req.body;
-  const post = await prisma.post.create({
-    data: {
-      created_date: new Date(),
-      ...data,
-    },
-  });
+  const post = await PostService.add(data)
 
   res.status(200).json(post);
 };

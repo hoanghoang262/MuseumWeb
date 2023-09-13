@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import PrismaService from "./prismaService";
 
 import hashPassword from "../helper/hashFuntion";

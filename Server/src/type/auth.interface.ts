@@ -1,5 +1,4 @@
 import { Prisma } from "@prisma/client";
-import { type } from "os";
 
 export interface SignIn {
   email: string;
