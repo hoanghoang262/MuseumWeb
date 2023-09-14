@@ -1,52 +1,55 @@
 import { v4 as uuidv4 } from "uuid";
 import { Request, Response } from "express";
-import PrismaService from "../services/prismaService";
 import ProductService from "../services/productService";
-
-const prisma = PrismaService.getInstance();
 
 //get all Products
 const getAll = async (req: Request, res: Response) => {
-  const products = await ProductService.getAll();
-  res.status(200).json(products);
+  const result = await ProductService.getAll();
+  res.status(200).json(result);
 };
 
 //get one product by id
 const getOne = async (req: Request, res: Response) => {
-  const product = await ProductService.delOne(req.params.id);
-  res.status(200).json(product);
+  const result = await ProductService.getOne(req.params.id);
+  res.status(200).json(result);
 };
 
 //del one product by id
 const delOne = async (req: Request, res: Response) => {
-  const product = await ProductService.delOne(req.params.id);
-  res.status(200).json(product);
+  const result = await ProductService.delOne(req.params.id);
+  res.status(200).json(result);
 };
 
 //delete many products by id
 const delMany = async (req: Request, res: Response) => {
   const productIds: { product_id: string }[] = req.body;
 
-  const products = await ProductService.delMany(productIds)
+  const result = await ProductService.delMany(productIds)
 
-  res.status(200).json(products);
+  res.status(200).json(result);
 };
 
 //update one product by id
 const update = async (req: Request, res: Response) => {
   const data = req.body;
 
-  const product = await ProductService.update(req.params.id, data)
+  const result = await ProductService.update(req.params.id, data)
 
-  res.status(200).json(product);
+  res.status(200).json(result);
 };
 
 const add = async (req: Request, res: Response) => {
   const data = req.body;
 
-  const product = await ProductService.add(data)
+  const result = await ProductService.add(data)
 
-  res.status(200).json(product);
+  res.status(200).json(result);
 };
 
-export { getAll, getOne, update, add, delMany, delOne };
+//get top 3 product
+const getTop3 = async (req: Request, res: Response) =>{
+  const result = await ProductService.getTop3()
+  return res.status(200).json(result);
+}
+
+export { getAll, getOne, update, add, delMany, delOne, getTop3 };

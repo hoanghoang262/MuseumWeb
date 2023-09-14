@@ -16,11 +16,16 @@ import PageLayout from "./layout/PageLayout";
 import AuthenLayout from "./layout/AuthenLayout";
 import SignIn from "./pages/SignIn/SignIn";
 import Registration from "./pages/Registration/Registration";
+import PostDetail from "./pages/PostDetail/PostDetail";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 import translationEn from "./locales/en/translation.json";
 import translationVn from "./locales/vn/translation.json";
 
 import { defaultLanguageState } from "./recoil/atoms/recoils";
+
+import HomeLoader from "./pages/Home/HomeLoader";
+
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -35,6 +40,7 @@ function App() {
         translation: translationVn,
       },
     },
+    lng:defaultLanguage,
     fallbackLng: defaultLanguage,
     interpolation: {
       escapeValue: false,
@@ -48,12 +54,20 @@ function App() {
       <Route errorElement={<Error />}>
         //ANCHOR - Page
         <Route path="/" element={<PageLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home />} loader={HomeLoader}/>
         </Route>
         //ANCHOR - Authen
         <Route path="/" element={<AuthenLayout />}>
           <Route path="signIn" element={<SignIn />} />
           <Route path="Registration" element={<Registration />} />
+        </Route>
+        //ANCHOR - PostDetail
+        <Route path="/post/:id" element={<PageLayout />}>
+          <Route index element={<PostDetail />}/>
+        </Route>
+        //ANCHOR - ProductDetail
+        <Route path="/product/:id" element={<PageLayout />}>
+          <Route index element={<ProductDetail />}/>
         </Route>
         //ANCHOR - Admin
         <Route path="/admin">

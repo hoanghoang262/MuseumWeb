@@ -33,17 +33,17 @@ const FooterData = [
             {
                 icon:undefined,
                 image: undefined,
-                text:'⚫ Tài trợ/Ủng hộ'
+                text:'⚫ Tài trợ/Ủng hộ - Sponsorship/Support'
             },
             {
                 icon:undefined,
                 image: undefined,
-                text:'⚫ Tải tờ rơi'
+                text:'⚫ Tải tờ rơi - Download flyer'
             },
             {
                 icon:undefined,
                 image: undefined,
-                text:'⚫ Hỏi và đáp'
+                text:'⚫ Hỏi và đáp - Ask and answer'
             },
         ]
     },

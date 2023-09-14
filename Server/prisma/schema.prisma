@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  account_id    String    @id(map: "PK__Account__46A222CDDBFAB8A4") @default(uuid()) @db.VarChar(225)
+  account_id    String    @id(map: "PK__Account__46A222CD7D22773E") @db.VarChar(225)
   email         String    @db.VarChar(225)
   account_name  String    @db.NVarChar(225)
   hash_password String?   @db.Text
@@ -23,20 +23,38 @@ model Account {
 }
 
 model Category {
-  category_id   Int    @id(map: "PK__Category__D54EE9B4C3279DBB") @default(autoincrement())
+  category_id   Int    @id(map: "PK__Category__D54EE9B4963B6985") @default(autoincrement())
   category_name String @db.NVarChar(100)
   Post          Post[]
 }
 
 model Comment {
-  comment_id   String    @id(map: "PK__Comment__E79576870DB0A8B2") @default(uuid()) @db.VarChar(225)
+  comment_id   String    @id(map: "PK__Comment__E7957687D31E1831") @db.VarChar(225)
   content      String    @db.NText
   account_id   String?   @db.VarChar(225)
   post_id      String?   @db.VarChar(225)
   created_date DateTime? @default(now(), map: "DF__Comment__created__60A75C0F") @db.Date
   created_by   String?   @db.VarChar(225)
   Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__created__619B8048")
-  Post         Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__5FB337D6")
+  Post         Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__041093DD")
+}
+
+model Post {
+  post_id      String    @id(map: "PK__Post__3ED787665FB98624") @db.VarChar(225)
+  image        String?   @db.VarChar(Max)
+  post_json    String    @db.NVarChar(Max)
+  category_id  Int?
+  created_date DateTime? @default(now(), map: "DF__Post__created_da__5BE2A6F2") @db.Date
+  created_by   String?   @db.VarChar(225)
+  Comment      Comment[]
+  Category     Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__category_i__07E124C1")
+  Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__created_by__5CD6CB2B")
+}
+
+model Role {
+  role_id   Int       @id(map: "PK__Role__760965CC91AE4F6C") @default(autoincrement())
+  role_name String    @db.NVarChar(100)
+  Account   Account[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -49,23 +67,11 @@ model Favor {
   @@ignore
 }
 
-model Post {
-  post_id      String    @id(map: "PK__Post__3ED787661F804987") @default(uuid()) @db.VarChar(225)
-  image        String?   @db.Text
-  post_json    String    @db.NVarChar(Max)
-  category_id  Int?
-  created_date DateTime? @default(now(), map: "DF__Post__created_da__5BE2A6F2") @db.Date
-  created_by   String?   @db.VarChar(225)
-  Comment      Comment[]
-  Category     Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__category_i__5AEE82B9")
-  Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__created_by__5CD6CB2B")
-}
-
 model Product {
-  product_id   String        @id(map: "PK__Product__47027DF5EF1C9F27") @db.VarChar(225)
+  product_id   String        @id(map: "PK__Product__47027DF531E031A0") @db.VarChar(225)
   product_json String        @db.NVarChar(Max)
-  image        String?       @db.Text
-  video        String?       @db.Text
+  image        String?       @db.VarChar(Max)
+  video        String?       @db.VarChar(Max)
   created_date DateTime?     @default(now(), map: "DF__Product__created__5629CD9C") @db.Date
   created_by   String?       @db.VarChar(225)
   Favor        Favor[]       @ignore
@@ -83,14 +89,8 @@ model Product_Tag {
   @@ignore
 }
 
-model Role {
-  role_id   Int       @id(map: "PK__Role__760965CCD9EF49F0") @default(autoincrement())
-  role_name String    @db.NVarChar(100)
-  Account   Account[]
-}
-
 model Tag {
-  tag_id      Int           @id(map: "PK__Tag__4296A2B6221E5228") @default(autoincrement())
+  tag_id      Int           @id(map: "PK__Tag__4296A2B68B8DF4BE") @default(autoincrement())
   tag_name    String        @db.NVarChar(100)
   Product_Tag Product_Tag[] @ignore
 }

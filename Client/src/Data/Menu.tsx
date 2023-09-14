@@ -1,11 +1,32 @@
 const HomeMenu = [
-    "Trang chủ",
-    "Giới Thiệu",
-    "Blogs",
-    "Hiện Vật",
-    "Các Hoạt Động",
-    "Thông tin cá nhân",
-    "Khác"
-]
+  {
+    section: "Trang chủ",
+    link: "/",
+  },
+  {
+    section: "Giới Thiệu",
+    link: "/",
+  },
+  {
+    section: "Tin Tức",
+    link: "/",
+  },
+  {
+    section: "Hiện Vật",
+    link: "/",
+  },
+  {
+    section: "Các Hoạt Động",
+    link: "/",
+  },
+  {
+    section: "Thông tin cá nhân",
+    link: "/",
+  },
+  {
+    section: "Khác",
+    link: "/",
+  },
+];
 
-export {HomeMenu}
+export { HomeMenu };

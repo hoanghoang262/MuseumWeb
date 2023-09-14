@@ -8,7 +8,9 @@ const prisma = PrismaService.getInstance();
 export const getAll = async () => {
   const posts: Post[] = await prisma.post.findMany();
   //parse string to JSON
-  posts.map((post) => JSON.parse(post.post_json));
+  posts.map((post) => {
+    post.post_json = JSON.parse(post.post_json)
+  });
 
   return posts;
 };
@@ -23,6 +25,18 @@ export const getOne = async (id: string) => {
   }
   return post;
 };
+
+export const getTop3 = async () => {
+  const posts = await prisma.post.findMany({
+    take: 3
+  })
+  //parse string to JSON
+  posts.map((post) => {
+    post.post_json = JSON.parse(post.post_json)
+  });
+
+  return posts;
+}
 
 export const delOne = async (id: string) => {
   try {
@@ -125,8 +139,10 @@ export const add = async (data: any) => {
   };
 };
 
+
+
 const PostService = {
-    getAll, getOne, delMany, delOne, add, update
+    getAll, getOne, delMany, delOne, add, update, getTop3
 }
 
 export default PostService

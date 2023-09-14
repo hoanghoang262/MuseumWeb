@@ -6,6 +6,7 @@ import { Account } from "@prisma/client";
 import { Message } from "../type/message.inteface";
 import { Register } from "../type/auth.interface";
 import { isError } from "../helper/isError";
+import { v4 as uuid } from "uuid";
 
 const prisma = PrismaService.getInstance();
 
@@ -43,7 +44,8 @@ export const register = async (data: Register): Promise<Account | Message> => {
 
   try {
     const account: Account = await prisma.account.create({
-      data: {
+      data:{
+        account_id: uuid(),
         email: data.email,
         account_name: data.account_name,
         hash_password: hashPassword(data.password),

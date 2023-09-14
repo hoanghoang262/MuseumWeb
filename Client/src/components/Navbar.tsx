@@ -6,22 +6,34 @@ import SearchIcon from "@mui/icons-material/Search";
 import { HomeMenu } from "../Data/Menu";
 import { Language } from "../Data/Language";
 
+import { useTranslation } from "react-i18next";
+import { useRecoilState } from "recoil";
+import { defaultLanguageState } from "../recoil/atoms/recoils";
+
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
+  const [defaultLanguage, setLanguage] = useRecoilState(defaultLanguageState);
+
+  const changeLanguage = (newLanguage: string) => {
+    setLanguage(newLanguage);
+    i18n.changeLanguage(defaultLanguage);
+  };
+
   return (
-    <nav className="flex bg-white bg-opacity-60 py-5 absolute top-0 z-10 w-full">
+    <nav className="flex bg-white bg-opacity-60 py-5 fixed top-0 z-10 w-full">
       {/*ANCHOR - icon holder */}
       <div className="w-1/5 cursor-pointer">
-        <div className="flex items-center justify-end">
-          <MuseumIcon
-            style={{ fontSize: "600%" }}
-            className=" text-green-800 mr-3"
-          />
-          <div className="w-3/12 font-light text-sm">
-            <p>Do an</p>
-            <p>Chien lam</p>
-            <p>Bao tang</p>
+        <Link to="/">
+          <div className="flex items-center justify-end">
+            <MuseumIcon
+              style={{ fontSize: "600%" }}
+              className=" text-green-800 mr-3"
+            />
+            <div className="w-3/12 font-light text-sm">
+              <p>{t("Đồ Án Triển Lãm Bảo Tàng")}</p>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/*ANCHOR - menu */}
@@ -30,18 +42,19 @@ const Navbar = () => {
           {/*NOTE - language support */}
           {Language.map((language) => (
             <img
-              src={language}
+              src={language.icon}
               alt="language image"
               style={{ height: "30px" }}
+              onClick={() => changeLanguage(language.language)}
             />
           ))}
           <SearchIcon style={{ fontSize: "200%" }} className="ml-20 mr-5" />
           <div className="flex flex-col">
             <Link to="/signIn" className="hover:text-green-600">
-              Đăng Nhập
+              {t("Đăng Nhập")}
             </Link>
             <Link to="/signIn" className="hover:text-green-600">
-              Đăng Ký
+              {t("Đăng Ký")}
             </Link>
           </div>
         </div>
@@ -49,10 +62,10 @@ const Navbar = () => {
           {HomeMenu.map((menu) => (
             <>
               <Link
-                to="/"
+                to={menu.link}
                 className="font-semibold mr-5 text-lg hover:border-b-4 hover:border-green-900 transition-all duration-150"
               >
-                {menu}
+                {t(`${menu.section}`)}
               </Link>
             </>
           ))}

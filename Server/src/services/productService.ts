@@ -1,12 +1,13 @@
 import { isError } from "../helper/isError";
 import PrismaService from "./prismaService";
+import { Product } from "@prisma/client";
 
 import { v4 as uuidv4 } from "uuid";
 
 const prisma = PrismaService.getInstance();
 
-export const getAll = async () => {
-  const products = await prisma.product.findMany();
+export const getAll= async () => {
+  const products:Product[]  = await prisma.product.findMany();
   //parse string to json
   products.map((product) => {
     product.product_json = JSON.parse(product.product_json);
@@ -24,6 +25,18 @@ export const getOne = async (id: string) => {
   }
   return product;
 };
+
+export const getTop3 = async () => {
+  const products = await prisma.product.findMany({
+    take: 3
+  })
+  //parse string to json
+  products.map((product) => {
+    product.product_json = JSON.parse(product.product_json);
+  });
+
+  return products;
+}
 
 export const delOne = async (id: string) => {
   try {
@@ -128,8 +141,9 @@ export const add = async (data: any) => {
   };
 };
 
+
 const ProductService = {
-    getAll, getOne, delOne, delMany, update, add
+    getAll, getOne, delOne, delMany, update, add, getTop3
 }
 
 export default ProductService
