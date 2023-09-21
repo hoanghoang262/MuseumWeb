@@ -21,6 +21,8 @@ export const signIn = async (
     },
   });
 
+  console.log(hashPassword(logUser.password))
+
   if (user == null) {
     return { type: "error", content: "User not found" };
   } else if (user.isBan) {

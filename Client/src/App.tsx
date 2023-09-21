@@ -4,12 +4,14 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import { useRecoilValue } from "recoil";
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/Home/Home";
 import Error from "./pages/Error/Error";
 import PageLayout from "./layout/PageLayout";
@@ -18,13 +20,18 @@ import SignIn from "./pages/SignIn/SignIn";
 import Registration from "./pages/Registration/Registration";
 import PostDetail from "./pages/PostDetail/PostDetail";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import Artifacts from "./pages/Artifacts/Artifacts";
+import News from "./pages/News/News";
 
 import translationEn from "./locales/en/translation.json";
 import translationVn from "./locales/vn/translation.json";
 
-import { defaultLanguageState } from "./recoil/atoms/recoils";
+import { defaultLanguageState, accountAtom } from "./recoil/atoms/recoils";
 
 import HomeLoader from "./pages/Home/HomeLoader";
+import ArtifactsLoader from "./pages/Artifacts/ArtifactsLoader";
+import NewsLoader from "./pages/News/NewLoader";
+import SignInAction from "./pages/SignIn/SignInAction";
 
 
 function App() {
@@ -58,16 +65,18 @@ function App() {
         </Route>
         //ANCHOR - Authen
         <Route path="/" element={<AuthenLayout />}>
-          <Route path="signIn" element={<SignIn />} />
+          <Route path="signIn" element={<SignIn />} action={SignInAction} />
           <Route path="Registration" element={<Registration />} />
         </Route>
-        //ANCHOR - PostDetail
-        <Route path="/post/:id" element={<PageLayout />}>
-          <Route index element={<PostDetail />}/>
+        //ANCHOR - Artifacts
+        <Route path="/product" element={<PageLayout />}>
+          <Route index element={<Artifacts />} loader={ArtifactsLoader}/>
+          <Route path=":id" element={<ProductDetail />} />
         </Route>
-        //ANCHOR - ProductDetail
-        <Route path="/product/:id" element={<PageLayout />}>
-          <Route index element={<ProductDetail />}/>
+        //ANCHOR - News
+        <Route path="/post" element={<PageLayout />}>
+          <Route index element={<News />} loader={NewsLoader}/>
+          <Route path=":id" element={<PostDetail />} />
         </Route>
         //ANCHOR - Admin
         <Route path="/admin">
@@ -83,6 +92,7 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <RouterProvider router={router} fallbackElement={<p>Loadings</p>} />
+      <ToastContainer />
     </I18nextProvider>
   );
 }

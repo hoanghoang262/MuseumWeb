@@ -9,11 +9,11 @@ const HomeMenu = [
   },
   {
     section: "Tin Tức",
-    link: "/",
+    link: "/post",
   },
   {
     section: "Hiện Vật",
-    link: "/",
+    link: "/product",
   },
   {
     section: "Các Hoạt Động",

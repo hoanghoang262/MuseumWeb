@@ -11,7 +11,7 @@ model Account {
   account_id    String    @id(map: "PK__Account__46A222CD7D22773E") @db.VarChar(225)
   email         String    @db.VarChar(225)
   account_name  String    @db.NVarChar(225)
-  hash_password String?   @db.Text
+  hash_password String?   @db.NVarChar(max)
   isBan         Boolean?  @default(false, map: "DF__Account__isBan__4F7CD00D")
   role_id       Int?      @default(3, map: "DF__Account__role_id__5070F446")
   created_date  DateTime? @default(now(), map: "DF__Account__created__52593CB8") @db.Date

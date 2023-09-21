@@ -12,8 +12,6 @@ import HomeImages from "../../Data/HomeImages";
 import presenImg from "../../Images/presentImage.jpg";
 
 import { presenData } from "../../Data/presenData";
-import PostData from "../../Data/PostData";
-import ProductData from "../../Data/ProductData";
 
 import { useTranslation } from "react-i18next";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";

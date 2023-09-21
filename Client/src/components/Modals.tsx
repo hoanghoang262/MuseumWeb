@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Form } from "react-router-dom";
 import LoginModal from "./LoginModal";
+import { useTranslation } from "react-i18next";
 
 const SignUpModal = () => {
   return (
@@ -19,7 +20,8 @@ const SignUpModal = () => {
           <span>Login with Google</span>
         </button>
       </h3>
-      <form className="space-y-6" action="#">
+      <Form className="space-y-6" method="post">
+        <input name="type" hidden value="signUp"/>
         <div>
           <label
             htmlFor="email"
@@ -102,22 +104,9 @@ const SignUpModal = () => {
           Sign Up
         </button>
         <div className="text-sm text-center font-medium text-gray-500 dark:text-gray-300">
-          Already Register?
-          <Link
-            to="/"
-            className="text-blue-700 hover:underline dark:text-blue-500"
-          >
-            Login
-          </Link>
-          /
-          <a
-            href="#"
-            className="text-blue-700 hover:underline dark:text-blue-500"
-          >
-            Company{")"}
-          </a>
+          Already Register? LOGIN
         </div>
-      </form>
+      </Form>
     </>
   );
 };
@@ -129,6 +118,7 @@ const ShowModal = ({ handleClose }: any) => {
   
   const [showing, setShowing] = useState(<LoginModal />);
   const [selectedModal, setSelected] = useState("Login");
+  const { t } = useTranslation();
 
   const Selected = (str: string) => {
     if (str == "Login") {
@@ -181,7 +171,7 @@ const ShowModal = ({ handleClose }: any) => {
                       href="#"
                       className=" text-lg font-bold leading-6 text-blue-900 underline decoration-blue-900"
                     >
-                      Đăng Nhập
+                      {t("Đăng Nhập")}
                     </a>
                   </div>
                   <div className="mx-3">
@@ -190,7 +180,7 @@ const ShowModal = ({ handleClose }: any) => {
                       href="#"
                       className=" text-lg font-bold leading-6"
                     >
-                      Đăng Ký
+                      {t("Đăng Ký")}
                     </a>
                   </div>
                 </>
@@ -202,7 +192,7 @@ const ShowModal = ({ handleClose }: any) => {
                       href="#"
                       className=" text-lg font-bold leading-6"
                     >
-                      Đăng Nhập
+                      {t("Đăng Nhập")}
                     </a>
                   </div>
 
@@ -212,7 +202,7 @@ const ShowModal = ({ handleClose }: any) => {
                       href="#"
                       className=" text-lg font-bold leading-6 text-blue-900 underline decoration-blue-900"
                     >
-                      Đăng Ký
+                      {t("Đăng Ký")}
                     </a>
                   </div>
                 </>

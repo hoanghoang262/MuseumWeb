@@ -9,10 +9,12 @@ import { Language } from "../Data/Language";
 import { useTranslation } from "react-i18next";
 import { useRecoilState } from "recoil";
 import { defaultLanguageState } from "../recoil/atoms/recoils";
+import { accountAtom } from "../recoil/atoms/recoils";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [defaultLanguage, setLanguage] = useRecoilState(defaultLanguageState);
+  const [account, setAccount]: any = useRecoilState(accountAtom);
 
   const changeLanguage = (newLanguage: string) => {
     setLanguage(newLanguage);
@@ -50,12 +52,30 @@ const Navbar = () => {
           ))}
           <SearchIcon style={{ fontSize: "200%" }} className="ml-20 mr-5" />
           <div className="flex flex-col">
-            <Link to="/signIn" className="hover:text-green-600">
-              {t("Đăng Nhập")}
-            </Link>
-            <Link to="/signIn" className="hover:text-green-600">
-              {t("Đăng Ký")}
-            </Link>
+            {account !== undefined ? (
+              <>
+                <Link to="/" className="hover:text-green-600">
+                  {account?.account_name}
+                </Link>
+                <span
+                  onClick={() => {
+                    setAccount(undefined);
+                  }}
+                  className="hover:text-green-600"
+                >
+                  {t("Đăng Xuất")}
+                </span>
+              </>
+            ) : (
+              <>
+                <Link to="/signIn" className="hover:text-green-600">
+                  {t("Đăng Nhập")}
+                </Link>
+                <Link to="/signIn" className="hover:text-green-600">
+                  {t("Đăng Ký")}
+                </Link>
+              </>
+            )}
           </div>
         </div>
         <div className="flex px-10 items-end justify-between w-4/5">
