@@ -11,13 +11,13 @@ model Account {
   account_id    String    @id(map: "PK__Account__46A222CD7D22773E") @db.VarChar(225)
   email         String    @db.VarChar(225)
   account_name  String    @db.NVarChar(225)
-  hash_password String?   @db.NVarChar(max)
+  hash_password String?   @db.NVarChar(Max)
   isBan         Boolean?  @default(false, map: "DF__Account__isBan__4F7CD00D")
   role_id       Int?      @default(3, map: "DF__Account__role_id__5070F446")
   created_date  DateTime? @default(now(), map: "DF__Account__created__52593CB8") @db.Date
   Role          Role?     @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Account__role_id__5165187F")
   Comment       Comment[]
-  Favor         Favor[]   @ignore
+  Favor         Favor[]
   Post          Post[]
   Product       Product[]
 }
@@ -36,7 +36,16 @@ model Comment {
   created_date DateTime? @default(now(), map: "DF__Comment__created__60A75C0F") @db.Date
   created_by   String?   @db.VarChar(225)
   Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__created__619B8048")
-  Post         Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__041093DD")
+  Post         Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__5FB337D6")
+}
+
+model Favor {
+  account_id String  @db.VarChar(225)
+  product_id String  @db.VarChar(225)
+  Account    Account @relation(fields: [account_id], references: [account_id], onUpdate: NoAction, map: "FK__Favor__account_i__6383C8BA")
+  Product    Product @relation(fields: [product_id], references: [product_id], onUpdate: NoAction, map: "FK__Favor__product_i__6477ECF3")
+
+  @@id([account_id, product_id], map: "PK_Favor")
 }
 
 model Post {
@@ -47,24 +56,8 @@ model Post {
   created_date DateTime? @default(now(), map: "DF__Post__created_da__5BE2A6F2") @db.Date
   created_by   String?   @db.VarChar(225)
   Comment      Comment[]
-  Category     Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__category_i__07E124C1")
+  Category     Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__category_i__5AEE82B9")
   Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__created_by__5CD6CB2B")
-}
-
-model Role {
-  role_id   Int       @id(map: "PK__Role__760965CC91AE4F6C") @default(autoincrement())
-  role_name String    @db.NVarChar(100)
-  Account   Account[]
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model Favor {
-  account_id String?  @db.VarChar(225)
-  product_id String?  @db.VarChar(225)
-  Account    Account? @relation(fields: [account_id], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Favor__account_i__6383C8BA")
-  Product    Product? @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Favor__product_i__6477ECF3")
-
-  @@ignore
 }
 
 model Product {
@@ -74,23 +67,28 @@ model Product {
   video        String?       @db.VarChar(Max)
   created_date DateTime?     @default(now(), map: "DF__Product__created__5629CD9C") @db.Date
   created_by   String?       @db.VarChar(225)
-  Favor        Favor[]       @ignore
+  Favor        Favor[]
   Account      Account?      @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Product__created__571DF1D5")
-  Product_Tag  Product_Tag[] @ignore
+  Product_Tag  Product_Tag[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model Product_Tag {
-  product_id String?  @db.VarChar(225)
-  tag_id     Int?
-  Product    Product? @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Product_T__produ__66603565")
-  Tag        Tag?     @relation(fields: [tag_id], references: [tag_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Product_T__tag_i__6754599E")
+  product_id String  @db.VarChar(225)
+  tag_id     Int
+  Product    Product @relation(fields: [product_id], references: [product_id], onUpdate: NoAction, map: "FK__Product_T__produ__66603565")
+  Tag        Tag     @relation(fields: [tag_id], references: [tag_id], onUpdate: NoAction, map: "FK__Product_T__tag_i__6754599E")
 
-  @@ignore
+  @@id([product_id, tag_id], map: "PK_Product_Tag")
+}
+
+model Role {
+  role_id   Int       @id(map: "PK__Role__760965CC91AE4F6C") @default(autoincrement())
+  role_name String    @db.NVarChar(100)
+  Account   Account[]
 }
 
 model Tag {
   tag_id      Int           @id(map: "PK__Tag__4296A2B68B8DF4BE") @default(autoincrement())
   tag_name    String        @db.NVarChar(100)
-  Product_Tag Product_Tag[] @ignore
+  Product_Tag Product_Tag[]
 }

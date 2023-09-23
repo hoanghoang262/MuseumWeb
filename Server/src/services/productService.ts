@@ -6,8 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const prisma = PrismaService.getInstance();
 
-export const getAll= async () => {
-  const products:Product[]  = await prisma.product.findMany();
+export const getAll = async () => {
+  const products: Product[] = await prisma.product.findMany({
+    include: {
+      Product_Tag: true,
+    },
+  });
   //parse string to json
   products.map((product) => {
     product.product_json = JSON.parse(product.product_json);
@@ -28,15 +32,18 @@ export const getOne = async (id: string) => {
 
 export const getTop3 = async () => {
   const products = await prisma.product.findMany({
-    take: 3
-  })
+    take: 3,
+    include: {
+      Product_Tag: true,
+    },
+  });
   //parse string to json
   products.map((product) => {
     product.product_json = JSON.parse(product.product_json);
   });
 
   return products;
-}
+};
 
 export const delOne = async (id: string) => {
   try {
@@ -141,9 +148,14 @@ export const add = async (data: any) => {
   };
 };
 
-
 const ProductService = {
-    getAll, getOne, delOne, delMany, update, add, getTop3
-}
+  getAll,
+  getOne,
+  delOne,
+  delMany,
+  update,
+  add,
+  getTop3,
+};
 
-export default ProductService
+export default ProductService;

@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[Account] (
     [account_id] VARCHAR(225) NOT NULL,
     [email] VARCHAR(225) NOT NULL,
     [account_name] NVARCHAR(225) NOT NULL,
-    [hash_password] TEXT,
+    [hash_password] NVARCHAR(max),
     [isBan] BIT CONSTRAINT [DF__Account__isBan__4F7CD00D] DEFAULT 0,
     [role_id] INT CONSTRAINT [DF__Account__role_id__5070F446] DEFAULT 3,
     [created_date] DATE CONSTRAINT [DF__Account__created__52593CB8] DEFAULT CURRENT_TIMESTAMP,
@@ -33,6 +33,13 @@ CREATE TABLE [dbo].[Comment] (
 );
 
 -- CreateTable
+CREATE TABLE [dbo].[Favor] (
+    [account_id] VARCHAR(225) NOT NULL,
+    [product_id] VARCHAR(225) NOT NULL,
+    CONSTRAINT [PK_Favor] PRIMARY KEY CLUSTERED ([account_id],[product_id])
+);
+
+-- CreateTable
 CREATE TABLE [dbo].[Post] (
     [post_id] VARCHAR(225) NOT NULL,
     [image] VARCHAR(max),
@@ -41,19 +48,6 @@ CREATE TABLE [dbo].[Post] (
     [created_date] DATE CONSTRAINT [DF__Post__created_da__5BE2A6F2] DEFAULT CURRENT_TIMESTAMP,
     [created_by] VARCHAR(225),
     CONSTRAINT [PK__Post__3ED787665FB98624] PRIMARY KEY CLUSTERED ([post_id])
-);
-
--- CreateTable
-CREATE TABLE [dbo].[Role] (
-    [role_id] INT NOT NULL IDENTITY(1,1),
-    [role_name] NVARCHAR(100) NOT NULL,
-    CONSTRAINT [PK__Role__760965CC91AE4F6C] PRIMARY KEY CLUSTERED ([role_id])
-);
-
--- CreateTable
-CREATE TABLE [dbo].[Favor] (
-    [account_id] VARCHAR(225),
-    [product_id] VARCHAR(225)
 );
 
 -- CreateTable
@@ -69,8 +63,16 @@ CREATE TABLE [dbo].[Product] (
 
 -- CreateTable
 CREATE TABLE [dbo].[Product_Tag] (
-    [product_id] VARCHAR(225),
-    [tag_id] INT
+    [product_id] VARCHAR(225) NOT NULL,
+    [tag_id] INT NOT NULL,
+    CONSTRAINT [PK_Product_Tag] PRIMARY KEY CLUSTERED ([product_id],[tag_id])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[Role] (
+    [role_id] INT NOT NULL IDENTITY(1,1),
+    [role_name] NVARCHAR(100) NOT NULL,
+    CONSTRAINT [PK__Role__760965CC91AE4F6C] PRIMARY KEY CLUSTERED ([role_id])
 );
 
 -- CreateTable
@@ -87,19 +89,19 @@ ALTER TABLE [dbo].[Account] ADD CONSTRAINT [FK__Account__role_id__5165187F] FORE
 ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK__Comment__created__619B8048] FOREIGN KEY ([created_by]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK__Comment__post_id__041093DD] FOREIGN KEY ([post_id]) REFERENCES [dbo].[Post]([post_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE [dbo].[Post] ADD CONSTRAINT [FK__Post__category_i__07E124C1] FOREIGN KEY ([category_id]) REFERENCES [dbo].[Category]([category_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- AddForeignKey
-ALTER TABLE [dbo].[Post] ADD CONSTRAINT [FK__Post__created_by__5CD6CB2B] FOREIGN KEY ([created_by]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK__Comment__post_id__5FB337D6] FOREIGN KEY ([post_id]) REFERENCES [dbo].[Post]([post_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Favor] ADD CONSTRAINT [FK__Favor__account_i__6383C8BA] FOREIGN KEY ([account_id]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Favor] ADD CONSTRAINT [FK__Favor__product_i__6477ECF3] FOREIGN KEY ([product_id]) REFERENCES [dbo].[Product]([product_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Post] ADD CONSTRAINT [FK__Post__category_i__5AEE82B9] FOREIGN KEY ([category_id]) REFERENCES [dbo].[Category]([category_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Post] ADD CONSTRAINT [FK__Post__created_by__5CD6CB2B] FOREIGN KEY ([created_by]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Product] ADD CONSTRAINT [FK__Product__created__571DF1D5] FOREIGN KEY ([created_by]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;

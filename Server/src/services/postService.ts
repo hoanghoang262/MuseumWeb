@@ -6,7 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 const prisma = PrismaService.getInstance();
 
 export const getAll = async () => {
-  const posts: Post[] = await prisma.post.findMany();
+  const posts: Post[] = await prisma.post.findMany({
+    include:{
+      Category: true,
+    }
+  });
   //parse string to JSON
   posts.map((post) => {
     post.post_json = JSON.parse(post.post_json)
@@ -18,6 +22,9 @@ export const getAll = async () => {
 export const getOne = async (id: string) => {
   const post = await prisma.post.findUnique({
     where: { post_id: id },
+    include:{
+      Category: true,
+    }
   });
   //parse string to JSON
   if (post) {
@@ -28,7 +35,10 @@ export const getOne = async (id: string) => {
 
 export const getTop3 = async () => {
   const posts = await prisma.post.findMany({
-    take: 3
+    take: 3,
+    include:{
+      Category: true,
+    }
   })
   //parse string to JSON
   posts.map((post) => {
