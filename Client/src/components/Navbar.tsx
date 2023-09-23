@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import MuseumIcon from "@mui/icons-material/Museum";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { HomeMenu } from "../Data/Menu";
+import { AdminMenu, HomeMenu } from "../Data/Menu";
 import { Language } from "../Data/Language";
 
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,7 @@ const Navbar = () => {
       setCategories(Categories);
       const Tags = await apis.get("http://localhost:3000/tags");
       setTags(Tags);
-      console.log("setUp")
+      console.log("setUp");
     };
 
     setUp();
@@ -131,10 +131,10 @@ const Navbar = () => {
               {categories?.map((category: any) => (
                 <>
                   <Link
-                    to={category?.category_name}
+                    to={category?.category_id}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
-                    {category?.category_name}
+                    {`post/categories/${category?.category_name}`}
                   </Link>
                 </>
               ))}
@@ -155,7 +155,7 @@ const Navbar = () => {
               {tags?.map((tag: any) => (
                 <>
                   <Link
-                    to={tag?.tag_name}
+                    to={`product/tags/${tag?.tag_id}`}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
                     {tag?.tag_name}
@@ -164,6 +164,37 @@ const Navbar = () => {
               ))}
             </div>
           </span>
+
+          {/* admin menu */}
+          {account?.role_id === 1 ? (
+            <>
+              <span
+                onMouseEnter={(event) => unhideMenuContent(event)}
+                className="font-semibold mr-5 text-lg hover:border-b-4 hover:border-green-900 transition-all duration-150"
+              >
+                {t(`Quản Trị Viên`)}
+                <div
+                  onMouseLeave={(event) => {
+                    hideMenuContent(event);
+                  }}
+                  className="absolute bg-opacity-50 bg-white py-3 px-5 pr-20 hidden"
+                >
+                  {AdminMenu?.map((menu: any) => (
+                    <>
+                      <Link
+                        to={menu?.link}
+                        className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
+                      >
+                        {menu?.section}
+                      </Link>
+                    </>
+                  ))}
+                </div>
+              </span>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </nav>

@@ -32,6 +32,9 @@ import HomeLoader from "./pages/Home/HomeLoader";
 import ArtifactsLoader from "./pages/Artifacts/ArtifactsLoader";
 import NewsLoader from "./pages/News/NewLoader";
 import SignInAction from "./pages/SignIn/SignInAction";
+import NewsWithCategory from "./pages/News/NewsWithCategory";
+import ArtifactsWithTag from "./pages/Artifacts/ArtifactsWithTag";
+import Search from "./pages/Search/Search";
 
 
 function App() {
@@ -71,13 +74,20 @@ function App() {
         //ANCHOR - Artifacts
         <Route path="/product" element={<PageLayout />}>
           <Route index element={<Artifacts />} loader={ArtifactsLoader}/>
+          <Route path="/tags/:id" element={<ArtifactsWithTag />} />
           <Route path=":id" element={<ProductDetail />} />
         </Route>
         //ANCHOR - News
         <Route path="/post" element={<PageLayout />}>
           <Route index element={<News />} loader={NewsLoader}/>
+          <Route path="/category/:id" element={<NewsWithCategory />} />
           <Route path=":id" element={<PostDetail />} />
         </Route>
+        //ANCHOR - Search
+        <Route path="/search" element={<PageLayout />}>
+          <Route index element={<Search />}/>
+        </Route>
+
         //ANCHOR - Admin
         <Route path="/admin">
           <Route />
