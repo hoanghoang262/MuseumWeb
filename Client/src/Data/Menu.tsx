@@ -16,14 +16,6 @@ const HomeMenu = [
     link: "/product",
   },
   {
-    section: "Các Hoạt Động",
-    link: "/",
-  },
-  {
-    section: "Thông tin cá nhân",
-    link: "/",
-  },
-  {
     section: "Khác",
     link: "/",
   },

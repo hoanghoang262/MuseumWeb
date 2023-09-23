@@ -10,15 +10,43 @@ import { useTranslation } from "react-i18next";
 import { useRecoilState } from "recoil";
 import { defaultLanguageState } from "../recoil/atoms/recoils";
 import { accountAtom } from "../recoil/atoms/recoils";
+import { useEffect, useState } from "react";
+import apis from "../API/apis";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const [defaultLanguage, setLanguage] = useRecoilState(defaultLanguageState);
   const [account, setAccount]: any = useRecoilState(accountAtom);
+  const [categories, setCategories]: any = useState();
+  const [tags, setTags]: any = useState();
+
+  useEffect(() => {
+    const setUp = async () => {
+      const Categories = await apis.get("http://localhost:3000/categories");
+      setCategories(Categories);
+      const Tags = await apis.get("http://localhost:3000/tags");
+      setTags(Tags);
+      console.log("setUp")
+    };
+
+    setUp();
+  }, []);
 
   const changeLanguage = (newLanguage: string) => {
     setLanguage(newLanguage);
     i18n.changeLanguage(defaultLanguage);
+  };
+
+  const hideMenuContent = (event: any) => {
+    const category = event.target;
+    if (!category.classList.contains("hidden")) {
+      category.classList.add("hidden");
+    }
+  };
+
+  const unhideMenuContent = (event: any) => {
+    const category = event.target.querySelector("div");
+    category.classList.remove("hidden");
   };
 
   return (
@@ -89,6 +117,53 @@ const Navbar = () => {
               </Link>
             </>
           ))}
+          <span
+            onMouseEnter={(event) => unhideMenuContent(event)}
+            className="font-semibold mr-5 text-lg hover:border-b-4 hover:border-green-900 transition-all duration-150"
+          >
+            {t(`Danh Mục`)}
+            <div
+              onMouseLeave={(event) => {
+                hideMenuContent(event);
+              }}
+              className="absolute bg-opacity-50 bg-white py-3 px-5 pr-20 hidden"
+            >
+              {categories?.map((category: any) => (
+                <>
+                  <Link
+                    to={category?.category_name}
+                    className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
+                  >
+                    {category?.category_name}
+                  </Link>
+                </>
+              ))}
+            </div>
+          </span>
+
+          <span
+            onMouseEnter={(event) => unhideMenuContent(event)}
+            className="font-semibold mr-5 text-lg hover:border-b-4 hover:border-green-900 transition-all duration-150"
+          >
+            {t(`Tags Tìm Kiếm`)}
+            <div
+              onMouseLeave={(event) => {
+                hideMenuContent(event);
+              }}
+              className="absolute bg-opacity-50 bg-white py-3 px-5 pr-20 hidden"
+            >
+              {tags?.map((tag: any) => (
+                <>
+                  <Link
+                    to={tag?.tag_name}
+                    className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
+                  >
+                    {tag?.tag_name}
+                  </Link>
+                </>
+              ))}
+            </div>
+          </span>
         </div>
       </div>
     </nav>
