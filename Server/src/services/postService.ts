@@ -7,13 +7,13 @@ const prisma = PrismaService.getInstance();
 
 export const getAll = async () => {
   const posts: Post[] = await prisma.post.findMany({
-    include:{
+    include: {
       Category: true,
-    }
+    },
   });
   //parse string to JSON
   posts.map((post) => {
-    post.post_json = JSON.parse(post.post_json)
+    post.post_json = JSON.parse(post.post_json);
   });
 
   return posts;
@@ -22,9 +22,9 @@ export const getAll = async () => {
 export const getOne = async (id: string) => {
   const post = await prisma.post.findUnique({
     where: { post_id: id },
-    include:{
+    include: {
       Category: true,
-    }
+    },
   });
   //parse string to JSON
   if (post) {
@@ -36,17 +36,30 @@ export const getOne = async (id: string) => {
 export const getTop3 = async () => {
   const posts = await prisma.post.findMany({
     take: 3,
-    include:{
+    include: {
       Category: true,
-    }
-  })
+    },
+  });
   //parse string to JSON
   posts.map((post) => {
-    post.post_json = JSON.parse(post.post_json)
+    post.post_json = JSON.parse(post.post_json);
   });
 
   return posts;
-}
+};
+
+export const getPostByTitle = async (title: string) => {
+  const posts: Post[] = await prisma.post.findMany();
+
+  //parse string to JSON
+  posts.map((post) => {
+    post.post_json = JSON.parse(post.post_json);
+  });
+
+  const searchPosts = posts.filter((post:any) => post.post_json.title === title);
+
+  return searchPosts
+};
 
 export const delOne = async (id: string) => {
   try {
@@ -96,7 +109,7 @@ export const delMany = async (postIds: { post_id: string }[]) => {
   };
 };
 
-export const update = async (id:string, data: any) => {
+export const update = async (id: string, data: any) => {
   try {
     await prisma.post.update({
       where: { post_id: data.id },
@@ -149,10 +162,15 @@ export const add = async (data: any) => {
   };
 };
 
-
-
 const PostService = {
-    getAll, getOne, delMany, delOne, add, update, getTop3
-}
+  getAll,
+  getOne,
+  delMany,
+  delOne,
+  add,
+  update,
+  getTop3,
+  getPostByTitle
+};
 
-export default PostService
+export default PostService;

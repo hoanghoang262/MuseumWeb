@@ -9,26 +9,29 @@ const getAll = async () => {
 };
 
 const getPostByCategory = async (categoryId: number) => {
-  const category = prisma.category.findUnique({
+  const category: Category | null = await prisma.category.findUnique({
     where: { category_id: categoryId },
   });
 
-  if(category!==undefined){
-    const post: Post[] = await prisma.post.findMany({
-        include: {
-          Category: true,
-        },
-      });
-  
-      post.filter((post : Post|any) => post.Category.equals(category))
-  
-      return post
+  if (category !== null) {
+    const posts: Post[] = await prisma.post.findMany({
+      include: {
+        Category: true,
+      },
+    });
+
+    const filterPosts = posts.filter((post: Post | any) => {
+      post.post_json = JSON.parse(post.post_json);
+      return post.Category.category_id === category.category_id;
+    });
+
+    return filterPosts;
   }
 };
 
 const categoryService = {
-    getAll,
-    getPostByCategory
-  };
+  getAll,
+  getPostByCategory,
+};
 
 export default categoryService;

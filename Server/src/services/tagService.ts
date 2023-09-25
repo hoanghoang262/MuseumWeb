@@ -1,5 +1,5 @@
 import PrismaService from "./prismaService";
-import { Tag, Product } from "@prisma/client";
+import { Tag, Product, Product_Tag } from "@prisma/client";
 
 const prisma = PrismaService.getInstance();
 
@@ -9,26 +9,31 @@ const getAll = async () => {
 };
 
 const getProductByTag = async (tagId: number) => {
-  const tag = await prisma.tag.findUnique({
+  const tag: Tag | null = await prisma.tag.findUnique({
     where: { tag_id: tagId },
   });
 
-  if (tag != undefined) {
+  if (tag !== null) {
     const products: Product[] = await prisma.product.findMany({
       include: {
         Product_Tag: true,
       },
     });
 
-    products.filter((product : Product|any) => product.Product_Tag.includes(tag))
+    const filterProducts = products?.filter((product: Product | any) => {
 
-    return products
+      product.product_json = JSON.parse(product.product_json);
+
+      return product.Product_Tag?.some((pt:Product_Tag) => pt.tag_id === tag.tag_id);
+    });
+
+    return filterProducts;
   }
 };
 
 const tagService = {
   getAll,
-  getProductByTag
+  getProductByTag,
 };
 
 export default tagService;

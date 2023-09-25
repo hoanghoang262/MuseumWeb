@@ -13,7 +13,7 @@ const ArtifactsWithTag = () => {
   };
   useEffect(() => {
     callBack();
-  }, [products]);
+  }, []);
 
 
   return (

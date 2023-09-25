@@ -45,6 +45,18 @@ export const getTop3 = async () => {
   return products;
 };
 
+export const getProductByName = async (name : string) => {
+  const products : Product[] = await prisma.product.findMany();
+  //parse string to json
+  products.map((product) => {
+    product.product_json = JSON.parse(product.product_json);
+  });
+
+  const searchProduct: Product[] = products.filter((p:any) => p.product_json?.title.includes(name))
+
+  return searchProduct;
+};
+
 export const delOne = async (id: string) => {
   try {
     await prisma.product.delete({
@@ -156,6 +168,7 @@ const ProductService = {
   update,
   add,
   getTop3,
+  getProductByName
 };
 
 export default ProductService;

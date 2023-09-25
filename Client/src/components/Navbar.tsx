@@ -12,6 +12,7 @@ import { defaultLanguageState } from "../recoil/atoms/recoils";
 import { accountAtom } from "../recoil/atoms/recoils";
 import { useEffect, useState } from "react";
 import apis from "../API/apis";
+import useForceUpdate from "../hooks/useForceUpdate";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -78,7 +79,11 @@ const Navbar = () => {
               onClick={() => changeLanguage(language.language)}
             />
           ))}
-          <SearchIcon style={{ fontSize: "200%" }} className="ml-20 mr-5" />
+          
+          <Link to={"/search"}>
+            <SearchIcon style={{ fontSize: "200%" }} className="ml-20 mr-5" />
+          </Link>
+
           <div className="flex flex-col">
             {account !== undefined ? (
               <>
@@ -131,10 +136,11 @@ const Navbar = () => {
               {categories?.map((category: any) => (
                 <>
                   <Link
-                    to={category?.category_id}
+                    to={`/post/categories/${category?.category_id}`}
+                    onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
-                    {`post/categories/${category?.category_name}`}
+                    {category?.category_name}
                   </Link>
                 </>
               ))}
@@ -155,7 +161,8 @@ const Navbar = () => {
               {tags?.map((tag: any) => (
                 <>
                   <Link
-                    to={`product/tags/${tag?.tag_id}`}
+                    to={`/product/tags/${tag?.tag_id}`}
+                    onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
                     {tag?.tag_name}
@@ -185,7 +192,7 @@ const Navbar = () => {
                         to={menu?.link}
                         className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                       >
-                        {menu?.section}
+                        {t(`${menu?.section}`)}
                       </Link>
                     </>
                   ))}
