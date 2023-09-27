@@ -24,11 +24,11 @@ const HomeMenu = [
 const AdminMenu = [
   {
     section: "Quản lý hiện vật",
-    link: "/",
+    link: "/admin/ArtifactsManagement",
   },
   {
     section: "Quản lý bài đăng",
-    link: "/",
+    link: "/admin/NewsManagement",
   },
   
 ];

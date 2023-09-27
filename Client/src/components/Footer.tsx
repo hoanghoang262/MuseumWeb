@@ -6,7 +6,7 @@ const Footer = () => {
   const {t} = useTranslation();
   return (
     <>
-      <div className=" px-20 bg-white">
+      <div className=" px-20 pt-10 bg-white">
         <div className="flex">
           {FooterData.map((data) => (
             <>

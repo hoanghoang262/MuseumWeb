@@ -4,14 +4,15 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 import "./App.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import 'react-quill/dist/quill.snow.css';
 import Home from "./pages/Home/Home";
 import Error from "./pages/Error/Error";
 import PageLayout from "./layout/PageLayout";
@@ -35,7 +36,11 @@ import SignInAction from "./pages/SignIn/SignInAction";
 import NewsWithCategory from "./pages/News/NewsWithCategory";
 import ArtifactsWithTag from "./pages/Artifacts/ArtifactsWithTag";
 import Search from "./pages/Search/Search";
-
+import ArtifactsManagement from "./pages/Admin/ArtifactsManagement/ArtifactsManagement";
+import ArtifactsManagementLoader from "./pages/Admin/ArtifactsManagement/ArtifactsManagementLoader";
+import NewsManagement from "./pages/Admin/NewsManagement/NewsManagement";
+import NewManagementLoader from "./pages/Admin/NewsManagement/NewsManagementLoader";
+import CreateArtifact from "./pages/Admin/CreateArtifact/CreateArtifact";
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -50,7 +55,7 @@ function App() {
         translation: translationVn,
       },
     },
-    lng:defaultLanguage,
+    lng: defaultLanguage,
     fallbackLng: defaultLanguage,
     interpolation: {
       escapeValue: false,
@@ -64,7 +69,7 @@ function App() {
       <Route errorElement={<Error />}>
         //ANCHOR - Page
         <Route path="/" element={<PageLayout />}>
-          <Route index element={<Home />} loader={HomeLoader}/>
+          <Route index element={<Home />} loader={HomeLoader} />
         </Route>
         //ANCHOR - Authen
         <Route path="/" element={<AuthenLayout />}>
@@ -73,24 +78,34 @@ function App() {
         </Route>
         //ANCHOR - Artifacts
         <Route path="/product" element={<PageLayout />}>
-          <Route index element={<Artifacts />} loader={ArtifactsLoader}/>
+          <Route index element={<Artifacts />} loader={ArtifactsLoader} />
           <Route path="tags/:id" element={<ArtifactsWithTag />} />
           <Route path=":id" element={<ProductDetail />} />
         </Route>
         //ANCHOR - News
         <Route path="/post" element={<PageLayout />}>
-          <Route index element={<News />} loader={NewsLoader}/>
+          <Route index element={<News />} loader={NewsLoader} />
           <Route path="categories/:id" element={<NewsWithCategory />} />
           <Route path=":id" element={<PostDetail />} />
         </Route>
         //ANCHOR - Search
         <Route path="/search" element={<PageLayout />}>
-          <Route index element={<Search />}/>
+          <Route index element={<Search />} />
         </Route>
+        //ANCHOR - Admin admin/ArtifactsManagement/CreateArtifact
+        <Route path="/admin" element={<PageLayout />}>
+          <Route
+            path="ArtifactsManagement"
+            element={<ArtifactsManagement />}
+            loader={ArtifactsManagementLoader}
+          />
+          <Route path="CreateArtifact" element={<CreateArtifact />} />
 
-        //ANCHOR - Admin
-        <Route path="/admin">
-          <Route />
+          <Route
+            path="NewsManagement"
+            element={<NewsManagement />}
+            loader={NewManagementLoader}
+          />
         </Route>
         //ANCHOR - Error
         <Route path="*" element={<Error />} />
