@@ -13,7 +13,7 @@ const ProductDetail = () => {
   };
   useEffect(() => {
     callBack();
-  }, [product]);
+  }, []);
 
   const json = getJsonBaseOnLanguage(product?.product_json)
 

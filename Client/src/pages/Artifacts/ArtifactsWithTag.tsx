@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
 import apis from "../../API/apis";
 
@@ -21,7 +21,7 @@ const ArtifactsWithTag = () => {
       <div className="flex flex-wrap my-20 mx-20">
         {products?.map((product: any) => (
           <>
-            <div className="w-1/4 border rounded-xl mx-12 shadow-lg my-10 p-10">
+            <Link to={`/product/${product.product_id}`} className="w-1/4 border rounded-xl mx-12 shadow-lg my-10 p-10">
               <img src={product?.image} />
               <div className="mt-5 text-lg font-medium">
                 {getJsonBaseOnLanguage(product?.product_json)?.title}
@@ -29,7 +29,7 @@ const ArtifactsWithTag = () => {
               <div className="mt-5">
                 {getJsonBaseOnLanguage(product?.product_json)?.description}
               </div>
-            </div>
+            </Link>
           </>
         ))}
       </div>

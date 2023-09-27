@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import apis from "../../API/apis";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
+import { Link } from "react-router-dom";
+import { ClassNames } from "@emotion/react";
 
 const Search = () => {
   const [search, setSearch] = useState("");
@@ -9,9 +11,10 @@ const Search = () => {
   const { t } = useTranslation();
 
   const callBack = async () => {
-    const data: any = await apis.get("");
+    const data: any = await apis.get(`http://localhost:3000/search/${search}`);
     setSearchData(data);
   };
+
   useEffect(() => {
     callBack();
   }, [search]);
@@ -28,38 +31,43 @@ const Search = () => {
           placeholder={t("Nội dung tìm kiếm")}
         />
       </div>
-      <h1>{t("Tin Tức")}</h1>
-      <div className="flex flex-wrap my-20 mx-20">
-        {searchData?.posts?.map((post: any) => (
-          <>
-            <div className="w-1/4 border rounded-xl shadow-lg my-10 mx-12 p-10">
-              <img src={post?.image} />
-              <div className="mt-5 text-lg font-medium">
-                {getJsonBaseOnLanguage(post?.post_json)?.title}
-              </div>
-              <div className="mt-5">
-                {getJsonBaseOnLanguage(post?.post_json)?.description}
-              </div>
-            </div>
-          </>
-        ))}
-      </div>
 
-      <h1>{t("Hiện Vật")}</h1>
-      <div className="flex flex-wrap my-20 mx-20">
-        {searchData?.products?.map((product: any) => (
-          <>
-            <div className="w-1/4 border rounded-xl mx-12 shadow-lg my-10 p-10">
-              <img src={product?.image} />
-              <div className="mt-5 text-lg font-medium">
-                {getJsonBaseOnLanguage(product?.product_json)?.title}
-              </div>
-              <div className="mt-5">
-                {getJsonBaseOnLanguage(product?.product_json)?.description}
-              </div>
-            </div>
-          </>
-        ))}
+      <div className="mt-20">
+        <div className="text-3xl ml-20 font-thin">{t("Tin Tức")}</div>
+        <hr className="w-11/12 m-auto border border-neutral-300" />
+        <div className="flex flex-wrap mb-20 mx-20">
+          {searchData?.posts?.map((post: any) => (
+            <>
+              <Link to={`/post/${post.post_id}`} className="w-1/4 border rounded-xl shadow-lg my-10 mx-12 p-10">
+                <img src={post?.image} />
+                <div className="mt-5 text-lg font-medium">
+                  {getJsonBaseOnLanguage(post?.post_json)?.title}
+                </div>
+                <div className="mt-5">
+                  {getJsonBaseOnLanguage(post?.post_json)?.description}
+                </div>
+              </Link>
+            </>
+          ))}
+        </div>
+
+        <div className="text-3xl ml-20 font-thin">{t("Hiện Vật")}</div>
+        <hr className="w-11/12 m-auto border border-neutral-300" />
+        <div className="flex flex-wrap mb-20 mx-20">
+          {searchData?.products?.map((product: any) => (
+            <>
+              <Link to={`/product/${product.product_id}`} className="w-1/4 border rounded-xl mx-12 shadow-lg my-10 p-10">
+                <img src={product?.image} />
+                <div className="mt-5 text-lg font-medium">
+                  {getJsonBaseOnLanguage(product?.product_json)?.title}
+                </div>
+                <div className="mt-5">
+                  {getJsonBaseOnLanguage(product?.product_json)?.description}
+                </div>
+              </Link>
+            </>
+          ))}
+        </div>
       </div>
     </>
   );

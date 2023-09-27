@@ -45,14 +45,21 @@ export const getTop3 = async () => {
   return products;
 };
 
-export const getProductByName = async (name : string) => {
-  const products : Product[] = await prisma.product.findMany();
+export const getProductByName = async (name: string) => {
+  const products: Product[] = await prisma.product.findMany();
   //parse string to json
   products.map((product) => {
     product.product_json = JSON.parse(product.product_json);
   });
 
-  const searchProduct: Product[] = products.filter((p:any) => p.product_json?.title.includes(name))
+  const searchProduct: Product[] = products.filter((p: any) => {
+    for (let i = 0; i < p.product_json?.length; i++) {
+      if (p.product_json[i].title.toLowerCase().includes(name.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  });
 
   return searchProduct;
 };
@@ -168,7 +175,7 @@ const ProductService = {
   update,
   add,
   getTop3,
-  getProductByName
+  getProductByName,
 };
 
 export default ProductService;

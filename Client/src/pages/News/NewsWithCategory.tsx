@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
 import apis from "../../API/apis";
 
@@ -20,17 +20,17 @@ const NewsWithCategory = () => {
   return (
     <>
       <div className="flex flex-wrap my-20 mx-20">
-        {posts?.map((posts: any) => (
+        {posts?.map((post: any) => (
           <>
-            <div className="w-1/4 border rounded-xl shadow-lg my-10 mx-12 p-10">
-              <img src={posts?.image} />
+            <Link to={`/post/${post.post_id}`} className="w-1/4 border rounded-xl shadow-lg my-10 mx-12 p-10">
+              <img src={post?.image} />
               <div className="mt-5 text-lg font-medium">
-                {getJsonBaseOnLanguage(posts?.post_json)?.title}
+                {getJsonBaseOnLanguage(post?.post_json)?.title}
               </div>
               <div className="mt-5">
-                {getJsonBaseOnLanguage(posts?.post_json)?.description}
+                {getJsonBaseOnLanguage(post?.post_json)?.description}
               </div>
-            </div>
+            </Link>
           </>
         ))}
       </div>

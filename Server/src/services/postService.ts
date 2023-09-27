@@ -56,7 +56,14 @@ export const getPostByTitle = async (title: string) => {
     post.post_json = JSON.parse(post.post_json);
   });
 
-  const searchPosts = posts.filter((post:any) => post.post_json.title === title);
+  const searchPosts = posts.filter((p:any) => {
+    for (let i = 0; i < p.post_json?.length; i++) {
+      if (p.post_json[i].title.toLowerCase().includes(title.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  });
 
   return searchPosts
 };
