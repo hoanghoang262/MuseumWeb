@@ -1,6 +1,6 @@
 import { isError } from "../helper/isError";
 import PrismaService from "./prismaService";
-import { Product } from "@prisma/client";
+import { Product, Product_Tag, Tag } from "@prisma/client";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,6 +22,9 @@ export const getAll = async () => {
 export const getOne = async (id: string) => {
   const product = await prisma.product.findUnique({
     where: { product_id: id },
+    include: {
+      Product_Tag: true,
+    },
   });
   //parse string to json
   if (product) {
@@ -66,6 +69,8 @@ export const getProductByName = async (name: string) => {
 
 export const delOne = async (id: string) => {
   try {
+    await prisma.product_Tag.deleteMany({ where: { product_id: id } });
+
     await prisma.product.delete({
       where: { product_id: id },
     });
@@ -114,11 +119,32 @@ export const delMany = async (ids: { product_id: string }[]) => {
   };
 };
 
-export const update = async (id: string, data: any) => {
+export const update = async (id: string, rawdata: any) => {
+  const { tag_ids, ...data } = rawdata;
+
   try {
-    await prisma.product.update({
+    const updateProduct = await prisma.product.update({
       where: { product_id: id },
       data: data,
+    });
+
+    await prisma.product_Tag.deleteMany({
+      where: { product_id: updateProduct.product_id },
+    });
+
+    let product_tags: Product_Tag[] = [];
+
+    console.log(tag_ids);
+    tag_ids?.map((tag_id: string) => {
+      const product_tag = {
+        product_id: updateProduct.product_id,
+        tag_id: Number.parseInt(tag_id),
+      };
+      product_tags = [...product_tags, product_tag];
+    });
+
+    await prisma.product_Tag.createMany({
+      data: product_tags,
     });
   } catch (error) {
     if (isError(error)) {
@@ -139,14 +165,32 @@ export const update = async (id: string, data: any) => {
   };
 };
 
-export const add = async (data: any) => {
+export const add = async (rawdata: any) => {
+  const { tag_ids, ...data } = rawdata;
+
   try {
-    await prisma.product.create({
+    console.log(data);
+    const newProduct = await prisma.product.create({
       data: {
         product_id: uuidv4(),
         created_date: new Date(),
         ...data,
       },
+    });
+
+    let product_tags: Product_Tag[] = [];
+
+    console.log(tag_ids);
+    tag_ids?.map((tag_id: string) => {
+      const product_tag = {
+        product_id: newProduct.product_id,
+        tag_id: Number.parseInt(tag_id),
+      };
+      product_tags = [...product_tags, product_tag];
+    });
+
+    await prisma.product_Tag.createMany({
+      data: product_tags,
     });
   } catch (error) {
     if (isError(error)) {

@@ -22,7 +22,7 @@ const ProductDetail = () => {
       <img className="w-full absolute -z-30" src={`${product?.image}`}></img>
       <div className="bg-white">
         <div className="text-white pt-40 pb-20 pl-20 opacity-80 bg-black pr-36 text-5xl font-sans">{json?.title}</div>
-        <div className="px-20 pt-20 text-xl">{json?.description}</div>
+        <div className="px-20 pt-20 text-xl" dangerouslySetInnerHTML={{ __html: json?.content }} ></div>
         <img className="py-20 m-auto" src={`${product?.image}`}></img>
       </div>
     </>

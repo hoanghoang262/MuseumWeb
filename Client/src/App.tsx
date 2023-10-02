@@ -12,7 +12,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 import Home from "./pages/Home/Home";
 import Error from "./pages/Error/Error";
 import PageLayout from "./layout/PageLayout";
@@ -41,6 +41,11 @@ import ArtifactsManagementLoader from "./pages/Admin/ArtifactsManagement/Artifac
 import NewsManagement from "./pages/Admin/NewsManagement/NewsManagement";
 import NewManagementLoader from "./pages/Admin/NewsManagement/NewsManagementLoader";
 import CreateArtifact from "./pages/Admin/CreateArtifact/CreateArtifact";
+import CreateArtifactAction from "./pages/Admin/CreateArtifact/CreateArtifactAction";
+import CreateArtifactLoader from "./pages/Admin/CreateArtifact/CreateArtifactLoader";
+import UpdateArtifact from "./pages/Admin/UpdateArtifact/UpdateArtifact";
+import UpdateArtifactAction from "./pages/Admin/UpdateArtifact/UpdateArtifactAction";
+import ArtifactsManagementAction from "./pages/Admin/ArtifactsManagement/ArtifactsManagementAction";
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -98,8 +103,21 @@ function App() {
             path="ArtifactsManagement"
             element={<ArtifactsManagement />}
             loader={ArtifactsManagementLoader}
+            action={ArtifactsManagementAction}
           />
-          <Route path="CreateArtifact" element={<CreateArtifact />} />
+          <Route
+            path="CreateArtifact"
+            element={<CreateArtifact />}
+            action={CreateArtifactAction}
+            loader={CreateArtifactLoader}
+          />
+
+          <Route
+            path="UpdateArtifact/:id"
+            element={<UpdateArtifact />}
+            action={UpdateArtifactAction}
+            loader={CreateArtifactLoader}
+          />
 
           <Route
             path="NewsManagement"
