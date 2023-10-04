@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, Form } from "react-router-dom";
 import getJsonBaseOnLanguage from "../../../utils/getJsonBaseOnLanguage";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,9 +11,12 @@ const NewsManagement = () => {
   return (
     <>
       <div className="relative overflow-x-auto mx-20 my-40">
-        <Button sx={{ m: 1 }} variant="text" endIcon={<AddCircleIcon />}>
-          Create New
-        </Button>
+        <Link to={`/admin/CreateNews`}>
+          <Button sx={{ m: 1 }} variant="text" endIcon={<AddCircleIcon />}>
+            Create New
+          </Button>
+        </Link>
+
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -53,21 +56,28 @@ const NewsManagement = () => {
                   <td className="px-6 py-4">{New?.created_date}</td>
                   <td className="px-6 py-4">{New?.created_by}</td>
                   <td className="px-6 py-4">
-                    <Button
-                      sx={{ m: 0.5 }}
-                      variant="outlined"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      sx={{ m: 0.5 }}
-                      variant="contained"
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      Update
-                    </Button>
+                    <Form method="post">
+                      <input hidden name="id" value={New?.post_id} />
+                      <Button
+                        type="submit"
+                        sx={{ m: 0.5 }}
+                        variant="outlined"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                      >
+                        Delete
+                      </Button>
+                    </Form>
+
+                    <Link to={`/admin/UpdateNews/${New?.post_id}`}>
+                      <Button
+                        sx={{ m: 0.5 }}
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Update
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               );

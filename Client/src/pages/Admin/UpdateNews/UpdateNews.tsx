@@ -14,12 +14,11 @@ import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import DeleteIcon from "@mui/icons-material/Delete";
 import hasNullOrUndefinedValues from "../../../utils/hasNullOrUnderfineValue";
-import handleSelection from "../../../utils/handleSelection";
 import apis from "../../../API/apis";
 import base64ToFile from "../../../utils/base64ToFile";
 
-const UpdateArtifact = () => {
-  const [upadteArtifact, setUpadteArtifact]: any = useState();
+const UpdateNews = () => {
+  const [upadteNews, setUpadteNews]: any = useState();
   const [vietJson, setVietJson]: any = useState();
   const [engJson, setEngJson]: any = useState();
   const [files, setFiles]: any = useState([]);
@@ -30,21 +29,20 @@ const UpdateArtifact = () => {
 
   const submit = useSubmit();
 
-  const tags: any = useLoaderData();
+  const categories: any = useLoaderData();
 
   const response: any = useActionData();
 
   const { id } = useParams();
 
   const callback = async () => {
-    const artifact = await apis.get(`http://localhost:3000/products/${id}`);
-    await setUpadteArtifact(artifact);
-    await setVietJson(artifact?.product_json[0]);
-    await setEngJson(artifact?.product_json[1]);
-    await setContent(artifact?.product_json[0].content);
-    await setEnContent(artifact?.product_json[1].content)
-    await setFiles([base64ToFile(artifact?.image)])
-    console.log(base64ToFile(artifact?.image))
+    const news = await apis.get(`http://localhost:3000/posts/${id}`);
+    await setUpadteNews(news);
+    await setVietJson(news?.post_json[0]);
+    await setEngJson(news?.post_json[1]);
+    await setContent(news?.post_json[0]?.content);
+    await setEnContent(news?.post_json[1]?.content);
+    await setFiles([base64ToFile(news?.image)]);
   };
 
   useEffect(() => {
@@ -58,17 +56,12 @@ const UpdateArtifact = () => {
   }, [response]);
 
   const frmSubmit = () => {
-    const frm = document.getElementById("artifactFrm");
+    const frm = document.getElementById("newsFrm");
     if (frm instanceof HTMLFormElement) {
       const formData = new FormData(frm);
       formData.append("files", files[0]);
       formData.append("content", content);
       formData.append("enContent", enContent);
-      const tagSelectElemet = document.getElementById("Tag");
-      if (tagSelectElemet instanceof HTMLSelectElement) {
-        formData.set("Tag", JSON.stringify(handleSelection(tagSelectElemet)));
-      }
-      console.log(formData.get("Tag"));
       if (hasNullOrUndefinedValues(formData)) {
         toast("one of the values is empty", { type: toast.TYPE.ERROR });
         return;
@@ -76,7 +69,7 @@ const UpdateArtifact = () => {
 
       submit(formData, {
         method: "post",
-        action: `/admin/UpdateArtifact/${id}`,
+        action: `/admin/UpdateNews/${id}`,
         encType: "multipart/form-data",
       });
     }
@@ -110,14 +103,14 @@ const UpdateArtifact = () => {
     <>
       <div className="bg-neutral-100 py-20">
         <Form
-          id="artifactFrm"
+          id="newsFrm"
           method="post"
           className="w-10/12 rounded-2xl bg-white px-20 py-10 mx-20 mt-40 mb-20"
           encType="multipart/form-data"
         >
-          <input hidden name="id" value={upadteArtifact?.product_id}/>
+          <input hidden name="id" value={upadteNews?.post_id} />
           <div className="mb-8">
-            <div className="text-xl font-extralight mb-2">Artifact Name</div>
+            <div className="text-xl font-extralight mb-2">Title</div>
 
             <input
               name="VietName"
@@ -142,14 +135,13 @@ const UpdateArtifact = () => {
               className="rounded-lg w-8/12 mb-3 h-32 px-5 py-2 border border-neutral-200 bg-neutral-100 mr-10"
               defaultValue={vietJson?.description}
             />
-              
+
             <textarea
               name="EnglishDescription"
               placeholder="English Description"
               className="rounded-lg w-8/12 h-32 px-5 py-2 border border-neutral-200 bg-neutral-100 mr-10"
               defaultValue={engJson?.description}
             />
-              
           </div>
 
           <div className="mb-8">
@@ -164,7 +156,7 @@ const UpdateArtifact = () => {
               ) : files?.length === 0 ? (
                 <p>
                   Drag / drop some files here, or click to select files for
-                  Artifact Image
+                  News Image
                 </p>
               ) : (
                 <>
@@ -190,21 +182,21 @@ const UpdateArtifact = () => {
           </div>
 
           <div className="mb-8">
-            <div className="text-xl font-extralight mb-2">Tag</div>
-            <select id="Tag" name="Tag" multiple className="pl-2 pr-5 py-5">
-              {tags?.map((tag: any) => (
+            <div className="text-xl font-extralight mb-2">Category</div>
+            <select id="Category" name="Category" className="pl-2 pr-5 py-5">
+              {categories?.map((category: any) => (
                 <>
-                  {upadteArtifact?.Product_Tag?.some(
-                    (item: any) => item.tag_id === tag?.tag_id
-                  ) ? (
+                  {upadteNews?.category_id === category?.category_id ? (
                     <>
-                      <option selected value={tag?.tag_id}>
-                        {tag?.tag_name}
+                      <option selected value={category?.category_id}>
+                        {category?.category_name}
                       </option>
                     </>
                   ) : (
                     <>
-                      <option value={tag?.tag_id}>{tag?.tag_name}</option>
+                      <option value={category?.category_id}>
+                        {category?.category_name}
+                      </option>
                     </>
                   )}
                 </>
@@ -244,4 +236,4 @@ const UpdateArtifact = () => {
   );
 };
 
-export default UpdateArtifact;
+export default UpdateNews;

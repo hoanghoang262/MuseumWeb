@@ -46,6 +46,12 @@ import CreateArtifactLoader from "./pages/Admin/CreateArtifact/CreateArtifactLoa
 import UpdateArtifact from "./pages/Admin/UpdateArtifact/UpdateArtifact";
 import UpdateArtifactAction from "./pages/Admin/UpdateArtifact/UpdateArtifactAction";
 import ArtifactsManagementAction from "./pages/Admin/ArtifactsManagement/ArtifactsManagementAction";
+import CreateNews from "./pages/Admin/CreateNews/CreateNews";
+import CreateNewsAction from "./pages/Admin/CreateNews/CreateNewsAction";
+import CreateNewsLoader from "./pages/Admin/CreateNews/CreateNewsLoader";
+import UpdateNews from "./pages/Admin/UpdateNews/UpdateNews";
+import UpdateNewsAction from "./pages/Admin/UpdateNews/UpdateNewsAction";
+import NewsManagementAction from "./pages/Admin/NewsManagement/NewsManagementAction";
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -123,6 +129,21 @@ function App() {
             path="NewsManagement"
             element={<NewsManagement />}
             loader={NewManagementLoader}
+            action={NewsManagementAction}
+          />
+
+          <Route
+            path="CreateNews"
+            element={<CreateNews />}
+            action={CreateNewsAction}
+            loader={CreateNewsLoader}
+          />
+
+          <Route
+            path="UpdateNews/:id"
+            element={<UpdateNews />}
+            action={UpdateNewsAction}
+            loader={CreateNewsLoader}
           />
         </Route>
         //ANCHOR - Error

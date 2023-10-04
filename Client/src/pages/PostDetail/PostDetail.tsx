@@ -24,7 +24,7 @@ const PostDetail = () => {
           <div className="mb-5">{json?.title}</div>
           <div className="font-thin text-2xl">{post?.Category?.category_name}</div>
         </div>
-        <div className="px-20 pt-20 text-xl ">{json?.content}</div>
+        <div className="px-20 pt-20 text-xl " dangerouslySetInnerHTML={{ __html: json?.content }}></div>
         <img className="py-20 m-auto" src={`${post?.image}`}></img>
       </div>
     </>

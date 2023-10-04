@@ -134,7 +134,6 @@ export const update = async (id: string, rawdata: any) => {
 
     let product_tags: Product_Tag[] = [];
 
-    console.log(tag_ids);
     tag_ids?.map((tag_id: string) => {
       const product_tag = {
         product_id: updateProduct.product_id,

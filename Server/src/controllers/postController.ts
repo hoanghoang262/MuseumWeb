@@ -38,6 +38,7 @@ const delMany = async (req: Request, res: Response) => {
 //update one post by id
 const update = async (req: Request, res: Response) => {
   const data = req.body;
+  console.log(data);
   const result = await PostService.update(req.params.id, data)
   res.status(200).json(result);
 };

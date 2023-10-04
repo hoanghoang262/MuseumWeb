@@ -56,7 +56,7 @@ export const getPostByTitle = async (title: string) => {
     post.post_json = JSON.parse(post.post_json);
   });
 
-  const searchPosts = posts.filter((p:any) => {
+  const searchPosts = posts.filter((p: any) => {
     for (let i = 0; i < p.post_json?.length; i++) {
       if (p.post_json[i].title.toLowerCase().includes(title.toLowerCase())) {
         return true;
@@ -65,7 +65,7 @@ export const getPostByTitle = async (title: string) => {
     return false;
   });
 
-  return searchPosts
+  return searchPosts;
 };
 
 export const delOne = async (id: string) => {
@@ -118,10 +118,11 @@ export const delMany = async (postIds: { post_id: string }[]) => {
 
 export const update = async (id: string, data: any) => {
   try {
-    await prisma.post.update({
-      where: { post_id: data.id },
+    const updatePost = await prisma.post.update({
+      where: { post_id: id },
       data: data,
     });
+    console.log(updatePost);
   } catch (error) {
     if (isError(error)) {
       return {
@@ -177,7 +178,7 @@ const PostService = {
   add,
   update,
   getTop3,
-  getPostByTitle
+  getPostByTitle,
 };
 
 export default PostService;
