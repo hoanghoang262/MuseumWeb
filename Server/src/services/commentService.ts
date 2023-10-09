@@ -1,4 +1,4 @@
-import { Comment } from "@prisma/client";
+import { Account, Comment } from "@prisma/client";
 import { isError } from "../helper/isError";
 import PrismaService from "./prismaService";
 import { v4 as uuid } from "uuid";

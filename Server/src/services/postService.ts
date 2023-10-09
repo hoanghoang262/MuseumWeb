@@ -70,6 +70,8 @@ export const getPostByTitle = async (title: string) => {
 
 export const delOne = async (id: string) => {
   try {
+    await prisma.comment.deleteMany({ where: { post_id: id } });
+
     await prisma.post.delete({ where: { post_id: id } });
   } catch (error) {
     if (isError(error)) {
