@@ -52,6 +52,8 @@ import CreateNewsLoader from "./pages/Admin/CreateNews/CreateNewsLoader";
 import UpdateNews from "./pages/Admin/UpdateNews/UpdateNews";
 import UpdateNewsAction from "./pages/Admin/UpdateNews/UpdateNewsAction";
 import NewsManagementAction from "./pages/Admin/NewsManagement/NewsManagementAction";
+import PostDetailAction from "./pages/PostDetail/PostDetailAction";
+import Favorites from "./pages/Favorites/Favorites";
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -81,6 +83,7 @@ function App() {
         //ANCHOR - Page
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Home />} loader={HomeLoader} />
+          <Route path="Favorite" element={<Favorites />} />
         </Route>
         //ANCHOR - Authen
         <Route path="/" element={<AuthenLayout />}>
@@ -97,7 +100,7 @@ function App() {
         <Route path="/post" element={<PageLayout />}>
           <Route index element={<News />} loader={NewsLoader} />
           <Route path="categories/:id" element={<NewsWithCategory />} />
-          <Route path=":id" element={<PostDetail />} />
+          <Route path=":id" element={<PostDetail />} action={PostDetailAction}/>
         </Route>
         //ANCHOR - Search
         <Route path="/search" element={<PageLayout />}>

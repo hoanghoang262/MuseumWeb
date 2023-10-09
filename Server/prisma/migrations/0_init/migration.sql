@@ -76,6 +76,17 @@ CREATE TABLE [dbo].[Role] (
 );
 
 -- CreateTable
+CREATE TABLE [dbo].[sysdiagrams] (
+    [name] NVARCHAR(128) NOT NULL,
+    [principal_id] INT NOT NULL,
+    [diagram_id] INT NOT NULL IDENTITY(1,1),
+    [version] INT,
+    [definition] VARBINARY(max),
+    CONSTRAINT [PK__sysdiagr__C2B05B610464EF42] PRIMARY KEY CLUSTERED ([diagram_id]),
+    CONSTRAINT [UK_principal_name] UNIQUE NONCLUSTERED ([principal_id],[name])
+);
+
+-- CreateTable
 CREATE TABLE [dbo].[Tag] (
     [tag_id] INT NOT NULL IDENTITY(1,1),
     [tag_name] NVARCHAR(100) NOT NULL,
@@ -90,6 +101,9 @@ ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK__Comment__created__619B8048] FORE
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK__Comment__post_id__5FB337D6] FOREIGN KEY ([post_id]) REFERENCES [dbo].[Post]([post_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Comment] ADD CONSTRAINT [FK_Comment_Account] FOREIGN KEY ([account_id]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Favor] ADD CONSTRAINT [FK__Favor__account_i__6383C8BA] FOREIGN KEY ([account_id]) REFERENCES [dbo].[Account]([account_id]) ON DELETE NO ACTION ON UPDATE NO ACTION;

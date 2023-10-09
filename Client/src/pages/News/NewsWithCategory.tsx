@@ -15,7 +15,7 @@ const NewsWithCategory = () => {
   };
   useEffect(() => {
     callBack();
-  }, []);
+  }, [id]);
 
   return (
     <>

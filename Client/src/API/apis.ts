@@ -6,7 +6,6 @@ const get = async (url: string) => {
 };
 
 const post = async (url: string, formData: any) => {
-  console.log(formData)
   const response:any = await axios.post(url, formData)
                                   .catch(err => {console.log(err.message)});
   console.log("response: ", response);

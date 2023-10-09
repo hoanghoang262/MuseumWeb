@@ -8,18 +8,19 @@ datasource db {
 }
 
 model Account {
-  account_id    String    @id(map: "PK__Account__46A222CD7D22773E") @db.VarChar(225)
-  email         String    @db.VarChar(225)
-  account_name  String    @db.NVarChar(225)
-  hash_password String?   @db.NVarChar(Max)
-  isBan         Boolean?  @default(false, map: "DF__Account__isBan__4F7CD00D")
-  role_id       Int?      @default(3, map: "DF__Account__role_id__5070F446")
-  created_date  DateTime? @default(now(), map: "DF__Account__created__52593CB8") @db.Date
-  Role          Role?     @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Account__role_id__5165187F")
-  Comment       Comment[]
-  Favor         Favor[]
-  Post          Post[]
-  Product       Product[]
+  account_id                          String    @id(map: "PK__Account__46A222CD7D22773E") @db.VarChar(225)
+  email                               String    @db.VarChar(225)
+  account_name                        String    @db.NVarChar(225)
+  hash_password                       String?   @db.NVarChar(Max)
+  isBan                               Boolean?  @default(false, map: "DF__Account__isBan__4F7CD00D")
+  role_id                             Int?      @default(3, map: "DF__Account__role_id__5070F446")
+  created_date                        DateTime? @default(now(), map: "DF__Account__created__52593CB8") @db.Date
+  Role                                Role?     @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Account__role_id__5165187F")
+  Comment_Comment_created_byToAccount Comment[] @relation("Comment_created_byToAccount")
+  Comment_Comment_account_idToAccount Comment[] @relation("Comment_account_idToAccount")
+  Favor                               Favor[]
+  Post                                Post[]
+  Product                             Product[]
 }
 
 model Category {
@@ -29,14 +30,15 @@ model Category {
 }
 
 model Comment {
-  comment_id   String    @id(map: "PK__Comment__E7957687D31E1831") @db.VarChar(225)
-  content      String    @db.NText
-  account_id   String?   @db.VarChar(225)
-  post_id      String?   @db.VarChar(225)
-  created_date DateTime? @default(now(), map: "DF__Comment__created__60A75C0F") @db.Date
-  created_by   String?   @db.VarChar(225)
-  Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__created__619B8048")
-  Post         Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__5FB337D6")
+  comment_id                          String    @id(map: "PK__Comment__E7957687D31E1831") @db.VarChar(225)
+  content                             String    @db.NText
+  account_id                          String?   @db.VarChar(225)
+  post_id                             String?   @db.VarChar(225)
+  created_date                        DateTime? @default(now(), map: "DF__Comment__created__60A75C0F") @db.Date
+  created_by                          String?   @db.VarChar(225)
+  Account_Comment_created_byToAccount Account?  @relation("Comment_created_byToAccount", fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__created__619B8048")
+  Post                                Post?     @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Comment__post_id__5FB337D6")
+  Account_Comment_account_idToAccount Account?  @relation("Comment_account_idToAccount", fields: [account_id], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Comment_Account")
 }
 
 model Favor {
@@ -85,6 +87,16 @@ model Role {
   role_id   Int       @id(map: "PK__Role__760965CC91AE4F6C") @default(autoincrement())
   role_name String    @db.NVarChar(100)
   Account   Account[]
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B610464EF42") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
 }
 
 model Tag {

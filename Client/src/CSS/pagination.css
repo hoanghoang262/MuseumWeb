@@ -1,0 +1,13 @@
+.pagination {
+  .selected {
+    background-color: #2fb1f7;
+    color: white;
+  }
+}
+
+li {
+  padding: 10px;
+  background-color: #edebeb;
+  margin: 10px;
+  border-radius: 20%;
+}

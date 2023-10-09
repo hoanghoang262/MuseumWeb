@@ -12,7 +12,7 @@ import { defaultLanguageState } from "../recoil/atoms/recoils";
 import { accountAtom } from "../recoil/atoms/recoils";
 import { useEffect, useState } from "react";
 import apis from "../API/apis";
-import useForceUpdate from "../hooks/useForceUpdate";
+//import useForceUpdate from "../hooks/useForceUpdate";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -79,7 +79,7 @@ const Navbar = () => {
               onClick={() => changeLanguage(language.language)}
             />
           ))}
-          
+
           <Link to={"/search"}>
             <SearchIcon style={{ fontSize: "200%" }} className="ml-20 mr-5" />
           </Link>
@@ -137,7 +137,7 @@ const Navbar = () => {
                 <>
                   <Link
                     to={`/post/categories/${category?.category_id}`}
-                    onClick={useForceUpdate}
+                    //onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
                     {category?.category_name}
@@ -162,7 +162,7 @@ const Navbar = () => {
                 <>
                   <Link
                     to={`/product/tags/${tag?.tag_id}`}
-                    onClick={useForceUpdate}
+                    //onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
                     {tag?.tag_name}
@@ -198,6 +198,12 @@ const Navbar = () => {
                   ))}
                 </div>
               </span>
+            </>
+          ) : account?.role_id === 3 ? (
+            <>
+              <Link to={"/Favorite"} className="font-semibold mr-5 text-lg hover:border-b-4 hover:border-green-900 transition-all duration-150">
+                {t("Yêu thích")}
+              </Link>
             </>
           ) : (
             <></>
