@@ -31,7 +31,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const env = __importStar(require("dotenv"));
 const client_1 = require("@prisma/client");
-const MainRoute_1 = __importDefault(require("./routes/MainRoute"));
+const mainRoute_1 = __importDefault(require("./routes/mainRoute"));
 const prisma = new client_1.PrismaClient();
 //connect to database
 prisma.$connect();
@@ -39,28 +39,35 @@ prisma.$connect();
 const dbtest = async () => {
     console.log("test database connection");
     const role = await prisma.role.findMany();
-    console.log('role', role);
+    console.log("role", role);
 };
 dbtest();
 //environment variables configuration
 env.config();
 const app = (0, express_1.default)();
 const PORT = 3000;
-app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({
-    extended: true,
-}));
-app.use((0, cors_1.default)());
+// Cấu hình giới hạn kích thước yêu cầu lên 50MB
+app.use(body_parser_1.default.json({ limit: '50mb' }));
+app.use(body_parser_1.default.urlencoded({ limit: '50mb', extended: true }));
+const corsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization,X-Custom-Header',
+    credentials: true,
+    optionSuccessStatus: 200
+};
+app.use((0, cors_1.default)(corsOptions));
+app.options('*', (0, cors_1.default)());
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+    res.status(500).send("Something went wrong!");
 });
 app.get("/", (req, res) => {
     res.send("Hello, World with TypeScript!");
 });
 //main routes
-app.use("/", MainRoute_1.default);
+app.use("/", mainRoute_1.default);
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
