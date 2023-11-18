@@ -4,15 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_promise_router_1 = __importDefault(require("express-promise-router"));
-const ProductController_1 = require("../controller/ProductController");
+const productController_1 = require("../controllers/productController");
 const router = (0, express_promise_router_1.default)();
 //product router
-router.route("/:id")
-    .get(ProductController_1.getOne)
-    .delete(ProductController_1.delOne)
-    .put(ProductController_1.update);
-router.route("/")
-    .get(ProductController_1.getAll)
-    .post(ProductController_1.add)
-    .delete(ProductController_1.delMany);
+router.route("/top3").get(productController_1.getTop3);
+router.route("/:id").get(productController_1.getOne).delete(productController_1.delOne).put(productController_1.update);
+router.route("/").get(productController_1.getAll).post(productController_1.add).delete(productController_1.delMany);
 exports.default = router;
