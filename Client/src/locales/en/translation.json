@@ -8,8 +8,8 @@
   "Khác": "Others",
   "error": "Error",
   "Đồ Án Triển Lãm Bảo Tàng": "Museum Exhibition Project",
-  "Đăng Nhập": "signIn",
-  "Đăng Ký": "signUp",
+  "Đăng Nhập": "SignIn",
+  "Đăng Ký": "SignUp",
   "Đăng Xuất": "LogOut",
   "Tham Quan":"Visit",
   "Tin Tức và Sự Kiện":"News and Events",
@@ -35,5 +35,9 @@
   "Tìm Kiếm":"Search",
   "Đăng nhập để bình luận":"Sign in to comment",
   "Bình luận":"Post",
-  "Yêu thích":"Favorites"
+  "Yêu thích":"Favorites",
+  "Biểu đồ":"Dashboard",
+  "Đã yêu thích":"Favorites",
+  "Hủy yêu thích":"Unfavorites",
+  "Không có hiện vật yêu thích":"No favories artifact"
 }

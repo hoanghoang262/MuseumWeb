@@ -11,3 +11,14 @@ export const getFavorByAccountId = async (req: Request, res: Response) => {
 
   res.status(200).json(result);
 };
+
+export const addFavor = async (req: Request, res: Response) => {
+  console.log("favor controller");
+  console.log("accountId",req.params.accountId);
+  const result : any = await FavorService.addFavor(
+    req.params.accountId,
+    req.params.productId
+  );
+
+  res.status(200).json(result);
+};

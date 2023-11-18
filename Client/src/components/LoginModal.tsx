@@ -1,11 +1,10 @@
 import { Form } from "react-router-dom";
 
-
 const LoginModal = () => {
   return (
     <>
       <h3 className="mb-4 text-xl font-medium text-center items-center text-gray-900 dark:text-white">
-        <button
+        {/* <button
           className="px-4 py-2 border justify-center items-center flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150 m-auto"
           style={{ width: "100%" }}
         >
@@ -16,10 +15,10 @@ const LoginModal = () => {
             alt="google logo"
           />
           <span>Login with Google</span>
-        </button>
+        </button> */}
       </h3>
       <Form method="post" className="space-y-6">
-      <input name="type" hidden value="signIn"/>
+        <input name="type" hidden value="signIn" />
         <div>
           <label
             htmlFor="email"
@@ -58,7 +57,6 @@ const LoginModal = () => {
                 type="checkbox"
                 value=""
                 className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                required
               />
             </div>
             <label

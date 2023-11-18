@@ -27,7 +27,7 @@ import News from "./pages/News/News";
 import translationEn from "./locales/en/translation.json";
 import translationVn from "./locales/vn/translation.json";
 
-import { defaultLanguageState, accountAtom } from "./recoil/atoms/recoils";
+import { defaultLanguageState } from "./recoil/atoms/recoils";
 
 import HomeLoader from "./pages/Home/HomeLoader";
 import ArtifactsLoader from "./pages/Artifacts/ArtifactsLoader";

@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { sessionGet } from "../../utils/cookiesession";
 
 //ANCHOR - set up default language
 export const defaultLanguageState = atom({
@@ -8,5 +9,5 @@ export const defaultLanguageState = atom({
 
 export const accountAtom = atom({
   key: "accountAtom",
-  default: undefined,
+  default: sessionGet("account"),
 });

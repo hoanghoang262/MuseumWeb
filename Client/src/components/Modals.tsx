@@ -7,7 +7,7 @@ const SignUpModal = () => {
   return (
     <>
       <h3 className="mb-4 text-xl font-medium text-center items-center text-gray-900 dark:text-white">
-        <button
+        {/* <button
           className="px-4 py-2 border justify-center items-center flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150 m-auto"
           style={{ width: "100%" }}
         >
@@ -18,7 +18,7 @@ const SignUpModal = () => {
             alt="google logo"
           />
           <span>Login with Google</span>
-        </button>
+        </button> */}
       </h3>
       <Form className="space-y-6" method="post">
         <input name="type" hidden value="signUp"/>

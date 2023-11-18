@@ -30,6 +30,10 @@ const AdminMenu = [
     section: "Quản lý bài đăng",
     link: "/admin/NewsManagement",
   },
+  {
+    section: "Biểu đồ",
+    link: "/admin/Dashboard",
+  },
   
 ];
 

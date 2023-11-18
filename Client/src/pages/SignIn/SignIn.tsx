@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { toast } from "react-toastify";
 import { accountAtom } from "../../recoil/atoms/recoils";
 import { useEffect } from "react";
+import { sessionSave } from "../../utils/cookiesession";
 
 function SignIn() {
   const [account, setAccount] = useRecoilState(accountAtom);
@@ -22,6 +23,7 @@ function SignIn() {
 
   useEffect(() => {
     if (result !== undefined && result.email !== undefined) {
+      sessionSave(result, "account")
       setAccount(result);
       navigate("/");
     } else if (result !== undefined && result.content !== undefined) {

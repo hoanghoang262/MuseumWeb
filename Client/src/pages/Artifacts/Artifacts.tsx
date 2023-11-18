@@ -1,5 +1,4 @@
-import { Link, useLoaderData } from "react-router-dom";
-import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
+import { useLoaderData } from "react-router-dom";
 import { PaginatedProducts } from "../../components/Pagination";
 
 const Artifacts = () => {
