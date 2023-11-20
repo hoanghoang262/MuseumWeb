@@ -54,6 +54,9 @@ import UpdateNewsAction from "./pages/Admin/UpdateNews/UpdateNewsAction";
 import NewsManagementAction from "./pages/Admin/NewsManagement/NewsManagementAction";
 import PostDetailAction from "./pages/PostDetail/PostDetailAction";
 import Favorites from "./pages/Favorites/Favorites";
+import { Dashboard } from "./pages/Admin/Dashboard/Dashboard";
+import { dashboardLoader } from "./pages/Admin/Dashboard/DashboardLoader";
+import { Introduce } from "./pages/Intro/Introduce";
 
 function App() {
   const defaultLanguage = useRecoilValue(defaultLanguageState);
@@ -83,6 +86,7 @@ function App() {
         //ANCHOR - Page
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Home />} loader={HomeLoader} />
+          <Route path="Intro" element={<Introduce />} loader={HomeLoader} />
           <Route path="Favorite" element={<Favorites />} />
         </Route>
         //ANCHOR - Authen
@@ -100,7 +104,11 @@ function App() {
         <Route path="/post" element={<PageLayout />}>
           <Route index element={<News />} loader={NewsLoader} />
           <Route path="categories/:id" element={<NewsWithCategory />} />
-          <Route path=":id" element={<PostDetail />} action={PostDetailAction}/>
+          <Route
+            path=":id"
+            element={<PostDetail />}
+            action={PostDetailAction}
+          />
         </Route>
         //ANCHOR - Search
         <Route path="/search" element={<PageLayout />}>
@@ -147,6 +155,12 @@ function App() {
             element={<UpdateNews />}
             action={UpdateNewsAction}
             loader={CreateNewsLoader}
+          />
+
+          <Route
+            path="Dashboard"
+            element={<Dashboard />}
+            loader={dashboardLoader}
           />
         </Route>
         //ANCHOR - Error

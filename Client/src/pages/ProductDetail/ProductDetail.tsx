@@ -15,12 +15,15 @@ const ProductDetail = () => {
   const { id } = useParams();
   const callBack = async () => {
     const result = await apis.get(`http://localhost:3000/products/${id}`);
-    const favor = await apis.get(
-      `http://localhost:3000/favor/${account.account_id}`
-    );
+    if (account) {
+      const favor = await apis.get(
+        `http://localhost:3000/favor/${account.account_id}`
+      );
+      setFavor(favor);
+    }
     console.log("post", result);
+    await apis.post(`http://localhost:3000/products/view/${id}`, {});
     setProduct(result);
-    setFavor(favor);
   };
   useEffect(() => {
     callBack();
@@ -34,37 +37,42 @@ const ProductDetail = () => {
       <div className="bg-white">
         <div className="text-white pt-40 pb-20 pl-20 opacity-80 bg-black pr-36 text-5xl font-sans">
           <div>{json?.title}</div>
-          {favorProduct?.some(
-            (f: any) => f.product_id == product.product_id
-          ) ? (
-            <div
-              onClick={async () => {
-                await apis.post(
-                  `http://localhost:3000/favor/${account.account_id}/${product.product_id}`,
-                  {}
-                );
-                await callBack();
-              }}
-              className="text-sm mt-5"
-            >
-              <FavoriteIcon sx={{ color: "pink", fontSize: 30 }} />{" "}
-              {t(`Đã yêu thích`)}
-            </div>
+          {account? (
+            favorProduct?.some(
+              (f: any) => f.product_id == product.product_id
+            ) ? (
+              <div
+                onClick={async () => {
+                  await apis.post(
+                    `http://localhost:3000/favor/${account.account_id}/${product.product_id}`,
+                    {}
+                  );
+                  await callBack();
+                }}
+                className="text-sm mt-5"
+              >
+                <FavoriteIcon sx={{ color: "pink", fontSize: 30 }} />{" "}
+                {t(`Đã yêu thích`)}
+              </div>
+            ) : (
+              <div
+                onClick={async () => {
+                  await apis.post(
+                    `http://localhost:3000/favor/${account.account_id}/${product.product_id}`,
+                    {}
+                  );
+                  await callBack();
+                }}
+                className="text-sm mt-5"
+              >
+                <FavoriteIcon sx={{ color: "gray", fontSize: 30 }} />{" "}
+                {t(`Yêu thích`)}
+              </div>
+            )
           ) : (
-            <div
-              onClick={async () => {
-                await apis.post(
-                  `http://localhost:3000/favor/${account.account_id}/${product.product_id}`,
-                  {}
-                );
-                await callBack();
-              }}
-              className="text-sm mt-5"
-            >
-              <FavoriteIcon sx={{ color: "gray", fontSize: 30 }} />{" "}
-              {t(`Yêu thích`)}
-            </div>
+            <></>
           )}
+          <div className="text-sm mt-5">{`${t("Lượt xem")}: ${product?.View??0}`}</div>
         </div>
 
         <div

@@ -5,7 +5,7 @@ const HomeMenu = [
   },
   {
     section: "Giới Thiệu",
-    link: "/",
+    link: "/Intro",
   },
   {
     section: "Tin Tức",

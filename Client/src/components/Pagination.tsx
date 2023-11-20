@@ -11,7 +11,7 @@ import apis from "../API/apis";
 function Products({ products }: any) {
   return (
     <>
-      <div className="flex flex-wrap my-20 mx-20">
+      <div className="flex flex-wrap mb-20 mx-20">
         {products?.map((product: any) => (
           <>
             <Link

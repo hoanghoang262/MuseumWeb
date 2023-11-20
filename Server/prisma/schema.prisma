@@ -57,6 +57,7 @@ model Post {
   category_id  Int?
   created_date DateTime? @default(now(), map: "DF__Post__created_da__5BE2A6F2") @db.Date
   created_by   String?   @db.VarChar(225)
+  View         Int?      @default(0, map: "DF__Post__View__3B40CD36")
   Comment      Comment[]
   Category     Category? @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__category_i__5AEE82B9")
   Account      Account?  @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Post__created_by__5CD6CB2B")
@@ -69,6 +70,7 @@ model Product {
   video        String?       @db.VarChar(Max)
   created_date DateTime?     @default(now(), map: "DF__Product__created__5629CD9C") @db.Date
   created_by   String?       @db.VarChar(225)
+  View         Int?          @default(0, map: "DF__Product__View__3A4CA8FD")
   Favor        Favor[]
   Account      Account?      @relation(fields: [created_by], references: [account_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Product__created__571DF1D5")
   Product_Tag  Product_Tag[]

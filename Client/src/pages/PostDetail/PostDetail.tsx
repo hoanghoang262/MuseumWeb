@@ -3,11 +3,13 @@ import { useActionData, useParams } from "react-router-dom";
 import apis from "../../API/apis";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
 import CommentComponent from "../../components/Comment";
+import { useTranslation } from "react-i18next";
 const PostDetail = () => {
   const response: any = useActionData();
   const [post, setPost]: any = useState();
   const [comments, setComments]: any = useState();
   const { id } = useParams();
+  const { t } = useTranslation()
 
   const setUp = (data:any) => {
     const {post, comments} = data
@@ -17,7 +19,9 @@ const PostDetail = () => {
   const callBack = async () => {
     const post = await apis.get(`http://localhost:3000/posts/${id}`);
     const comments = await apis.get(`http://localhost:3000/comments/${id}`);
+    await apis.post(`http://localhost:3000/posts/view/${id}`,{})
     setUp({post, comments});
+
   };
 
 
@@ -36,6 +40,7 @@ const PostDetail = () => {
           <div className="mb-5">{json?.title}</div>
           <div className="font-thin text-2xl">
             {post?.Category?.category_name}
+            <div className="text-sm mt-5">{`${t("Lượt xem")}: ${post?.View??0}`}</div>
           </div>
         </div>
         <div

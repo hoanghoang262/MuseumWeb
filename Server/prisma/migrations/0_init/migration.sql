@@ -47,6 +47,7 @@ CREATE TABLE [dbo].[Post] (
     [category_id] INT,
     [created_date] DATE CONSTRAINT [DF__Post__created_da__5BE2A6F2] DEFAULT CURRENT_TIMESTAMP,
     [created_by] VARCHAR(225),
+    [View] INT CONSTRAINT [DF__Post__View__3B40CD36] DEFAULT 0,
     CONSTRAINT [PK__Post__3ED787665FB98624] PRIMARY KEY CLUSTERED ([post_id])
 );
 
@@ -58,6 +59,7 @@ CREATE TABLE [dbo].[Product] (
     [video] VARCHAR(max),
     [created_date] DATE CONSTRAINT [DF__Product__created__5629CD9C] DEFAULT CURRENT_TIMESTAMP,
     [created_by] VARCHAR(225),
+    [View] INT CONSTRAINT [DF__Product__View__3A4CA8FD] DEFAULT 0,
     CONSTRAINT [PK__Product__47027DF531E031A0] PRIMARY KEY CLUSTERED ([product_id])
 );
 

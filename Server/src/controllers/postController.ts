@@ -51,6 +51,20 @@ const add = async (req: Request, res: Response) => {
   res.status(200).json(result);
 };
 
+//get view
+const getView = async (req: Request, res: Response) => {
+  const result = await PostService.getPostViewByAllCategory()
+
+  res.status(200).json(result);
+}
+
+//add View
+const addView = async (req: Request, res: Response) => {
+  const result = await PostService.addView(req.params.id)
+
+  res.status(200).json(result);
+}
 
 
-export { getAll, getOne, add, delMany, delOne, update, getTop3 };
+
+export { getAll, getOne, add, delMany, delOne, update, getTop3, getView, addView };

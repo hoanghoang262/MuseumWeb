@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import MuseumIcon from "@mui/icons-material/Museum";
 import SearchIcon from "@mui/icons-material/Search";
@@ -20,6 +20,7 @@ const Navbar = () => {
   const [account, setAccount]: any = useRecoilState(accountAtom);
   const [categories, setCategories]: any = useState();
   const [tags, setTags]: any = useState();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const setUp = async () => {
@@ -93,6 +94,7 @@ const Navbar = () => {
                 <span
                   onClick={() => {
                     setAccount(undefined);
+                    navigate("/")
                   }}
                   className="hover:text-green-600"
                 >

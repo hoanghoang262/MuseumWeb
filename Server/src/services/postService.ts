@@ -1,5 +1,5 @@
 import PrismaService from "./prismaService";
-import { Post } from "@prisma/client";
+import { Post, Prisma } from "@prisma/client";
 import { isError } from "../helper/isError";
 import { v4 as uuidv4 } from "uuid";
 
@@ -66,6 +66,15 @@ export const getPostByTitle = async (title: string) => {
   });
 
   return searchPosts;
+};
+
+export const getPostViewByAllCategory = async () => {
+  const result =
+    await prisma.$queryRaw(Prisma.sql`SELECT c.category_name As 'name', SUM(p.[View]) AS 'uv'
+  FROM Post p
+  JOIN Category c ON p.category_id = c.category_id
+  GROUP BY c.category_name;`);
+  return result;
 };
 
 export const delOne = async (id: string) => {
@@ -172,6 +181,35 @@ export const add = async (data: any) => {
   };
 };
 
+export const addView = async (postId: string) => {
+  try {
+    const post:Post|null = await prisma.post.findUnique({where:{post_id: postId}})
+    if(post){
+      post.View = post.View? post.View+1:1;
+      await prisma.post.update({
+        where: { post_id: postId },
+        data: post,
+      });
+    }
+  } catch (error) {
+    if (isError(error)) {
+      return {
+        type: "error",
+        error: error.message,
+      };
+    } else {
+      return {
+        type: "error",
+        error: error,
+      };
+    }
+  }
+  return {
+    type: "success",
+    content: "add success",
+  };
+};
+
 const PostService = {
   getAll,
   getOne,
@@ -181,6 +219,8 @@ const PostService = {
   update,
   getTop3,
   getPostByTitle,
+  getPostViewByAllCategory,
+  addView,
 };
 
 export default PostService;

@@ -1,6 +1,6 @@
 import { isError } from "../helper/isError";
 import PrismaService from "./prismaService";
-import { Product, Product_Tag, Tag } from "@prisma/client";
+import { Prisma, Product, Product_Tag, Tag } from "@prisma/client";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -65,6 +65,15 @@ export const getProductByName = async (name: string) => {
   });
 
   return searchProduct;
+};
+
+export const getProductViewByAllTag = async () => {
+  const result =
+    await prisma.$queryRaw(Prisma.sql`SELECT t.tag_name as 'name', SUM(p.[View]) as 'uv' FROM Product p JOIN Product_Tag pt
+    ON p.product_id = pt.product_id LEFT JOIN Tag t
+    ON t.tag_id = pt.tag_id
+    GROUP BY t.tag_name`);
+  return result;
 };
 
 export const delOne = async (id: string) => {
@@ -210,6 +219,35 @@ export const add = async (rawdata: any) => {
   };
 };
 
+export const addView = async (productId: string) => {
+  try {
+    const product:Product|null = await prisma.product.findUnique({where:{product_id: productId}})
+    if(product){
+      product.View = product.View? product.View+1:1;
+      await prisma.product.update({
+        where: { product_id: productId },
+        data: product,
+      });
+    }
+  } catch (error) {
+    if (isError(error)) {
+      return {
+        type: "error",
+        error: error.message,
+      };
+    } else {
+      return {
+        type: "error",
+        error: error,
+      };
+    }
+  }
+  return {
+    type: "success",
+    content: "add success",
+  };
+};
+
 const ProductService = {
   getAll,
   getOne,
@@ -219,6 +257,8 @@ const ProductService = {
   add,
   getTop3,
   getProductByName,
+  getProductViewByAllTag,
+  addView
 };
 
 export default ProductService;
