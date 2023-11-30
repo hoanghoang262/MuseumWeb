@@ -15,10 +15,6 @@ const HomeMenu = [
     section: "Hiện Vật",
     link: "/product",
   },
-  {
-    section: "Khác",
-    link: "/",
-  },
 ];
 
 const AdminMenu = [

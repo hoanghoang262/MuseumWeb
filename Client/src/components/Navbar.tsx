@@ -142,7 +142,7 @@ const Navbar = () => {
                     //onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
-                    {category?.category_name}
+                    {t(`${category?.category_name}`)}
                   </Link>
                 </>
               ))}
@@ -167,7 +167,7 @@ const Navbar = () => {
                     //onClick={useForceUpdate}
                     className="mb-2 block hover:border-b-4 hover:border-green-900 transition-all duration-150"
                   >
-                    {tag?.tag_name}
+                    {t(`${tag?.tag_name}`)}
                   </Link>
                 </>
               ))}

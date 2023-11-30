@@ -22,11 +22,19 @@ const ProductDetail = () => {
       setFavor(favor);
     }
     console.log("post", result);
-    await apis.post(`http://localhost:3000/products/view/${id}`, {});
+   
     setProduct(result);
   };
+
+  const addView = async () =>  await apis.post(`http://localhost:3000/products/view/${id}`, {});
+
+  const callBack2 = async () =>{
+    await addView()
+    await callBack()
+  }
+  
   useEffect(() => {
-    callBack();
+    callBack2();
   }, []);
 
   const json = getJsonBaseOnLanguage(product?.product_json);
