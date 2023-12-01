@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import getJsonBaseOnLanguage from "../../utils/getJsonBaseOnLanguage";
 import apis from "../../API/apis";
+import { useTranslation } from "react-i18next";
 
 const NewsWithCategory = () => {
   const [posts, setPosts]: any[] = useState();
   const { id } = useParams();
+  const {t} = useTranslation()
   const callBack = async () => {
     const result = await apis.get(
       `http://localhost:3000/categories/${id}/getPostByCategory`
@@ -19,6 +21,7 @@ const NewsWithCategory = () => {
 
   return (
     <>
+    <div className="mt-40 mx-20 text-2xl font-bold text-neutral-600">{`${posts?.length} ${t("News")}`}</div>
       <div className="flex flex-wrap my-20 mx-20">
         {posts?.map((post: any) => (
           <>
