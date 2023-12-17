@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTop3 = exports.update = exports.delOne = exports.delMany = exports.add = exports.getOne = exports.getAll = void 0;
+exports.addView = exports.getView = exports.getTop3 = exports.update = exports.delOne = exports.delMany = exports.add = exports.getOne = exports.getAll = void 0;
 const postService_1 = __importDefault(require("../services/postService"));
 //get all posts
 const getAll = async (req, res) => {
@@ -51,3 +51,15 @@ const add = async (req, res) => {
     res.status(200).json(result);
 };
 exports.add = add;
+//get view
+const getView = async (req, res) => {
+    const result = await postService_1.default.getPostViewByAllCategory();
+    res.status(200).json(result);
+};
+exports.getView = getView;
+//add View
+const addView = async (req, res) => {
+    const result = await postService_1.default.addView(req.params.id);
+    res.status(200).json(result);
+};
+exports.addView = addView;

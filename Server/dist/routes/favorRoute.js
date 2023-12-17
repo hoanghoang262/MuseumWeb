@@ -7,4 +7,5 @@ const express_promise_router_1 = __importDefault(require("express-promise-router
 const favorController_1 = require("../controllers/favorController");
 const router = (0, express_promise_router_1.default)();
 router.route("/:accountId").get(favorController_1.getFavorByAccountId);
+router.route("/:accountId/:productId").post(favorController_1.addFavor);
 exports.default = router;

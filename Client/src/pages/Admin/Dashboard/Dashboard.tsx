@@ -7,7 +7,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      <div className="py-40 px-10 flex flex-wrap">
+      <div className="pt-40 pb-72 px-10 flex flex-wrap">
         <RadialBarChart
           width={500}
           height={250}

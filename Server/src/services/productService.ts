@@ -80,6 +80,8 @@ export const delOne = async (id: string) => {
   try {
     await prisma.product_Tag.deleteMany({ where: { product_id: id } });
 
+    await prisma.favor.deleteMany({ where: { product_id: id } }); 
+
     await prisma.product.delete({
       where: { product_id: id },
     });

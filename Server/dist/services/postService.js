@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.add = exports.update = exports.delMany = exports.delOne = exports.getPostByTitle = exports.getTop3 = exports.getOne = exports.getAll = void 0;
+exports.addView = exports.add = exports.update = exports.delMany = exports.delOne = exports.getPostViewByAllCategory = exports.getPostByTitle = exports.getTop3 = exports.getOne = exports.getAll = void 0;
 const prismaService_1 = __importDefault(require("./prismaService"));
+const client_1 = require("@prisma/client");
 const isError_1 = require("../helper/isError");
 const uuid_1 = require("uuid");
 const prisma = prismaService_1.default.getInstance();
@@ -66,6 +67,14 @@ const getPostByTitle = async (title) => {
     return searchPosts;
 };
 exports.getPostByTitle = getPostByTitle;
+const getPostViewByAllCategory = async () => {
+    const result = await prisma.$queryRaw(client_1.Prisma.sql `SELECT c.category_name As 'name', SUM(p.[View]) AS 'uv'
+  FROM Post p
+  JOIN Category c ON p.category_id = c.category_id
+  GROUP BY c.category_name;`);
+    return result;
+};
+exports.getPostViewByAllCategory = getPostViewByAllCategory;
 const delOne = async (id) => {
     try {
         await prisma.comment.deleteMany({ where: { post_id: id } });
@@ -177,6 +186,37 @@ const add = async (data) => {
     };
 };
 exports.add = add;
+const addView = async (postId) => {
+    try {
+        const post = await prisma.post.findUnique({ where: { post_id: postId } });
+        if (post) {
+            post.View = post.View ? post.View + 1 : 1;
+            await prisma.post.update({
+                where: { post_id: postId },
+                data: post,
+            });
+        }
+    }
+    catch (error) {
+        if ((0, isError_1.isError)(error)) {
+            return {
+                type: "error",
+                error: error.message,
+            };
+        }
+        else {
+            return {
+                type: "error",
+                error: error,
+            };
+        }
+    }
+    return {
+        type: "success",
+        content: "add success",
+    };
+};
+exports.addView = addView;
 const PostService = {
     getAll: exports.getAll,
     getOne: exports.getOne,
@@ -186,5 +226,7 @@ const PostService = {
     update: exports.update,
     getTop3: exports.getTop3,
     getPostByTitle: exports.getPostByTitle,
+    getPostViewByAllCategory: exports.getPostViewByAllCategory,
+    addView: exports.addView,
 };
 exports.default = PostService;

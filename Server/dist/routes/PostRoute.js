@@ -8,6 +8,8 @@ const postController_1 = require("../controllers/postController");
 const router = (0, express_promise_router_1.default)();
 //post router
 router.route("/top3").get(postController_1.getTop3);
+router.route("/view").get(postController_1.getView);
+router.route("/view/:id").post(postController_1.addView);
 router.route("/:id").get(postController_1.getOne).delete(postController_1.delOne).put(postController_1.update);
 router.route("/").get(postController_1.getAll).post(postController_1.add).delete(postController_1.delMany);
 exports.default = router;

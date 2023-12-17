@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.add = exports.update = exports.delMany = exports.delOne = exports.getProductByName = exports.getTop3 = exports.getOne = exports.getAll = void 0;
+exports.addView = exports.add = exports.update = exports.delMany = exports.delOne = exports.getProductViewByAllTag = exports.getProductByName = exports.getTop3 = exports.getOne = exports.getAll = void 0;
 const isError_1 = require("../helper/isError");
 const prismaService_1 = __importDefault(require("./prismaService"));
+const client_1 = require("@prisma/client");
 const uuid_1 = require("uuid");
 const prisma = prismaService_1.default.getInstance();
 const getAll = async () => {
@@ -66,6 +67,14 @@ const getProductByName = async (name) => {
     return searchProduct;
 };
 exports.getProductByName = getProductByName;
+const getProductViewByAllTag = async () => {
+    const result = await prisma.$queryRaw(client_1.Prisma.sql `SELECT t.tag_name as 'name', SUM(p.[View]) as 'uv' FROM Product p JOIN Product_Tag pt
+    ON p.product_id = pt.product_id LEFT JOIN Tag t
+    ON t.tag_id = pt.tag_id
+    GROUP BY t.tag_name`);
+    return result;
+};
+exports.getProductViewByAllTag = getProductViewByAllTag;
 const delOne = async (id) => {
     try {
         await prisma.product_Tag.deleteMany({ where: { product_id: id } });
@@ -207,6 +216,37 @@ const add = async (rawdata) => {
     };
 };
 exports.add = add;
+const addView = async (productId) => {
+    try {
+        const product = await prisma.product.findUnique({ where: { product_id: productId } });
+        if (product) {
+            product.View = product.View ? product.View + 1 : 1;
+            await prisma.product.update({
+                where: { product_id: productId },
+                data: product,
+            });
+        }
+    }
+    catch (error) {
+        if ((0, isError_1.isError)(error)) {
+            return {
+                type: "error",
+                error: error.message,
+            };
+        }
+        else {
+            return {
+                type: "error",
+                error: error,
+            };
+        }
+    }
+    return {
+        type: "success",
+        content: "add success",
+    };
+};
+exports.addView = addView;
 const ProductService = {
     getAll: exports.getAll,
     getOne: exports.getOne,
@@ -216,5 +256,7 @@ const ProductService = {
     add: exports.add,
     getTop3: exports.getTop3,
     getProductByName: exports.getProductByName,
+    getProductViewByAllTag: exports.getProductViewByAllTag,
+    addView: exports.addView
 };
 exports.default = ProductService;

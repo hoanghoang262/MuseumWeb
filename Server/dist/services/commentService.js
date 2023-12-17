@@ -11,7 +11,7 @@ const getCommentByPostId = async (postId) => {
     const comments = await prisma.comment.findMany({
         where: { post_id: postId },
         include: { Account_Comment_account_idToAccount: true },
-        orderBy: { created_date: 'asc' }
+        orderBy: { created_date: 'desc' },
     });
     return comments;
 };
